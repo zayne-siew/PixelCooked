@@ -17,6 +17,7 @@ _P1 = ('w', 's', 'a', 'd', 'z')
 _P2 = ('Up','Down', 'Left', 'Right', 'Return')
 _P3 = ('t', 'g', 'f', 'h', 'Space')
 _P4 = ('i', 'k', 'j', 'l', 'm')
+_PLAYERS = (_P1, _P2, _P3, _P4)
 _COLOURS = ('blue', 'purple', 'orange', 'yellow')
 
 
@@ -1272,7 +1273,7 @@ def create_info_screen(window, length, time):
     return timer, order_frame
 
 
-def create_game_screen(window, length, grid_length, grid_width, *controls):
+def create_game_screen(window, length, grid_length, grid_width, duration_mins, controls):
     """
     This function takes in the current window and creates the game scren on it.
     It creates and displays the new game screen, replacing any previous screens.
@@ -1288,24 +1289,24 @@ def create_game_screen(window, length, grid_length, grid_width, *controls):
     @example
     window = tk.Tk()
     # Create one player
-    create_game_screen(window, 50, 10, 6, _P1)
+    create_game_screen(window, 50, 10, 6, 5, (_P1,))
 
     @example
     window = tk.Tk()
     # Create multiple players
-    create_game_screen(window, 50, 10, 6, _P1, _P2)
+    create_game_screen(window, 50, 10, 6, 5, (_P1, _P2))
 
     @example
     window = tk.Tk()
-    # Create window of different size and dimensions
-    create_game_screen(window, 20, 20, 12, _P1, _P2)
+    # Create window of different sizes, dimensions, and duration
+    create_game_screen(window, 20, 20, 12, 10, (_P1, _P2))
     """
     clear_window(window)
     screen_length = length * grid_length
     game_width = length * grid_width
 
     # Split the screen into two parts: the information screen and the game screen
-    timer, order_frame = create_info_screen(window, screen_length, 5 * 60 * 1000)
+    timer, order_frame = create_info_screen(window, screen_length, duration_mins * 60000)
     window.geometry(f'{screen_length}x{round(game_width*1.1)}')
     game_screen = tk.Canvas(window, bg='white', width=screen_length, height=game_width)
     game_screen.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.BOTH)
@@ -1349,6 +1350,58 @@ def create_game_screen(window, length, grid_length, grid_width, *controls):
                       list(chopping_blocks.values()) + list(cooking_blocks.values()))
 
 
+def display_player_controls(preview_frame, num_players, preview_length):
+    """
+    This function takes in the player frame and the number of players currently selected.
+    It displays the controls for each of the players on the player frame.
+    """
+    clear_window(preview_frame)
+    for i, (fill, (up, down, left, right, interact)) in enumerate(tuple(zip(_COLOURS, _PLAYERS))[:num_players]):
+        # Create frame to display character preview for current player
+        player_frame = tk.Frame(preview_frame, bg=_BACKGROUND, width=preview_length, borderwidth=0, highlightbackground='black', highlightthickness=2)
+        player_frame.pack(side=tk.LEFT, anchor=tk.CENTER, padx=2)
+
+        # Create label for character name
+        player_label = tk.Label(player_frame, bg=_BACKGROUND, text=f'Player {i + 1}', font=('Arial', 12))
+        player_label.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
+
+        # Create character preview for colour
+        player_size = preview_length // 2
+        player_canvas = tk.Canvas(player_frame, bg=_BACKGROUND, width=player_size, height=player_size, borderwidth=0, highlightthickness=0)
+        player_canvas.pack(side=tk.TOP, anchor=tk.CENTER, ipadx=0, ipady=0, pady=1)
+        player_preview = Player(player_canvas, 0, 0, player_size, fill=fill)
+
+        # Create control preview
+        key_size = preview_length // 3
+        key_canvas = tk.Canvas(player_frame, bg=_BACKGROUND, width=preview_length, height=key_size * 2, borderwidth=0, highlightthickness=0)
+        key_canvas.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.X, expand=True)
+
+        # Display preview for the up key
+        up = '↑' if up == 'Up' else up.upper()
+        up_rect = key_canvas.create_rectangle(key_size, 0, key_size * 2, key_size, outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
+        up_rect_label = key_canvas.create_text((key_size * 1.5, key_size / 2), text=up, font=('Arial', 12), fill='black')
+
+        # Display preview for the down key
+        down = '↓' if down == 'Down' else down.upper()
+        down_rect = key_canvas.create_rectangle(key_size, key_size, key_size * 2, key_size * 2, outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
+        down_rect_label = key_canvas.create_text((key_size * 1.5, key_size * 1.5), text=down, font=('Arial', 12), fill='black')
+
+        # Display preview for the left key
+        left = '←' if left == 'Left' else left.upper()
+        left_rect = key_canvas.create_rectangle(0, key_size, key_size, key_size * 2, outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
+        left_rect_label = key_canvas.create_text((key_size / 2, key_size * 1.5), text=left, font=('Arial', 12), fill='black')
+
+        # DIsplay preview for the right key
+        right = '→' if right == 'Right' else right.upper()
+        right_rect = key_canvas.create_rectangle(key_size * 2, key_size, key_size * 3, key_size * 2, outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
+        right_rect_label = key_canvas.create_text((key_size * 2.5, key_size * 1.5), text=right, font=('Arial', 12), fill='black')
+
+        # Display text preview for the interact key
+        interact = '↵' if interact == 'Return' else '␣' if interact == 'Space' else interact.upper()
+        interact_label = tk.Label(player_frame, bg=_BACKGROUND, text=f'Interact: {interact}', font=('Arial', 12))
+        interact_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.X, expand=True)
+
+
 def create_main_menu(window, length, width):
     """
     This function takes in the current window and creates the main menu on it.
@@ -1365,17 +1418,51 @@ def create_main_menu(window, length, width):
     frame.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.BOTH)
 
     # Display the game title
-    title_label = tk.Label(frame, bg=_BACKGROUND, width=length, text=_GAME_NAME, font=('Arial', 25))
-    title_label.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
+    title_frame = tk.Frame(frame, bg=_BACKGROUND, width=length, height=0.1 * width)
+    title_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.X, expand=True)
+    title_label = tk.Label(title_frame, bg=_BACKGROUND, width=length, text=_GAME_NAME, font=('Arial', 25))
+    title_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=2, fill=tk.X, expand=True)
 
     # Display the character preview
     # By default, the number of characters to display is 2
-    character_frame = tk.Frame(frame, bg=_BACKGROUND, width=length)
-    character_frame.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
+    preview_frame = tk.Frame(frame, bg=_BACKGROUND, height=0.6 * width)
+    preview_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.NONE, expand=True)
+    display_player_controls(preview_frame, 2, 0.2 * length)
+
+    # Display the player selection menu
+    select_frame = tk.Frame(frame, bg=_BACKGROUND, width=length, height=0.1 * width)
+    select_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=2, fill=tk.NONE, expand=True)
+    select_label = tk.Label(select_frame, bg=_BACKGROUND, text='Select number of players:', font=('Arial', 15))
+    select_label.pack(side=tk.LEFT, anchor=tk.CENTER, ipadx=2)
+    # By default, the number of characters to display is 2
+    player_option = tk.StringVar(select_frame)
+    player_option.set('2')
+    player_option_menu = tk.OptionMenu(select_frame, player_option, '2', '3', '4',
+                                       command=lambda _: display_player_controls(preview_frame, int(player_option.get()), 0.2 * length))
+    player_option_menu.pack(side=tk.LEFT, anchor=tk.CENTER)
+
+    # Display timer selection
+    # By default, the duration of the game is 5 minutes
+    timer_frame = tk.Frame(frame, bg=_BACKGROUND, width=length, height=0.1 * width)
+    timer_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=2, fill=tk.NONE, expand=True)
+    timer_label = tk.Label(timer_frame, bg=_BACKGROUND, text='Select duration of game:', font=('Arial', 15))
+    timer_label.pack(side=tk.LEFT, anchor=tk.CENTER, ipadx=2)
+    timer_option = tk.StringVar(timer_frame)
+    timer_option.set('5 minutes')
+    timer_option_menu = tk.OptionMenu(timer_frame, timer_option, '5 minutes', '10 minutes', '15 minutes')
+    timer_option_menu.pack(side=tk.LEFT, anchor=tk.CENTER)
+
+    # Display play button to navigate to game screen
+    grid_length = 10
+    grid_width = 6
+    size = min(length // grid_length, width // grid_width)
+    play_button = tk.Button(frame, text='Start', bg=_BACKGROUND,
+                            command=lambda: create_game_screen(window, size, grid_length, grid_width, int(timer_option.get().split(' ')[0]), _PLAYERS[:int(player_option.get())]))
+    play_button.pack(side=tk.TOP, anchor=tk.CENTER)
 
 
 """
-Main menu function
+Main function
 """
 
 
@@ -1389,13 +1476,13 @@ def main():
     window.title(_GAME_NAME)
     window.resizable(False, False)
 
-    """
     # Create the main menu
     create_main_menu(window, 500, 300)
-    """
 
+    """
     # Create the game screen
-    create_game_screen(window, 45, 10, 6, _P1, _P2)
+    create_game_screen(window, 45, 10, 6, 5, (_P1, _P2))
+    """
 
     # Allow refresh
     window.mainloop()
