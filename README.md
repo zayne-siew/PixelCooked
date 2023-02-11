@@ -10,10 +10,11 @@ This game requires Python v3.8.0 <= local interpreter < v3.9. Download `main.py`
 python3 main.py
 ```
 
-Alternatively, [import this project into Replit](https://replit.com/talk/ask/How-To-Import-Replit-On-Github/138684).
+~~Alternatively, import this project into Replit.~~
+This feature has been temporarily disabled.
 
 ## Acknowledgements
-This project is an undertaking as part of passing requirements for SUTD 10.014.
+This project is an undertaking of SUTD 10.014 Computational Thinking and Design, as part of passing requirements.
 
 Fellow contributors:
 - Isaiah Rafael
