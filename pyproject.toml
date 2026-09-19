@@ -11,7 +11,7 @@ requires-python = ">=3.12,<3.15"
 dependencies = ["pydantic>=2"]
 
 [project.optional-dependencies]
-dev = ["black", "mypy", "pylint"]
+dev = ["black", "mypy"]
 
 [project.scripts]
 PixelCooked = "main:main"
@@ -25,12 +25,5 @@ target-version = ["py312", "py313", "py314"]
 
 [tool.mypy]
 python_version = "3.12"
-files = ["main.py"]
+files = ["main.py", "src", "tests"]
 ignore_missing_imports = true
-
-[tool.pylint.main]
-py-version = "3.12"
-ignore = [".venvs"]
-
-[tool.pylint.format]
-max-line-length = 88
