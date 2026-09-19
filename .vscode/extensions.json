@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    // Python development and formatting
+    "ms-python.black-formatter",
+    "ms-python.mypy-type-checker",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "twixes.pypi-assistant",
+    // Schema & language tools
+    "davidanson.vscode-markdownlint",
+    "tamasfe.even-better-toml",
+    // Github
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+    "github.vscode-github-actions",
+    // Miscellaneous
+    "streetsidesoftware.code-spell-checker",
+    "vscode-icons-team.vscode-icons",
+  ]
+}

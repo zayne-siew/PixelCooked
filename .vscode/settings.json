@@ -1,0 +1,24 @@
+{
+  "cSpell.words": [
+    "analyse",
+    "mypy",
+    "pylint",
+    "setuptools",
+    "tkinter",
+    "venvs"
+  ],
+  "editor.rulers": [
+    88
+  ],
+  "[python]": {
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.defaultColorDecorators": "always",
+    "gitlens.codeLens.symbolScopes": [
+      "!Module"
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "editor.wordBasedSuggestions": "allDocuments",
+  },
+  "python.analysis.typeCheckingMode": "standard",
+}
