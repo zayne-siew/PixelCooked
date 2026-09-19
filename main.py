@@ -51,7 +51,7 @@ _FISH_FILL = "#B245A5"
 _LETTUCE_FILL = "#B9E3AB"
 _BREAD_FILL = "#FDF3E8"
 _INGREDIENT_SIZE_PERCENT = 0.6
-all_ingredients = set()
+all_ingredients: set[Ingredient] = set()
 
 
 """
@@ -1440,7 +1440,7 @@ def update_game_frame(
         # Get the ingredient nearest to the player
         ingredients_to_check = []
         for ingredient in all_ingredients:
-            x5, y5, _, _ = ingredient.get_coords()
+            x5, y5, _, _ = ingredient.coords
             icol = int(x5 // (x4 - x3))
             irow = int(y5 // (x4 - x3))
             if ingredient._player is not None:
