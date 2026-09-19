@@ -2,6 +2,7 @@
   "cSpell.words": [
     "analyse",
     "mypy",
+    "pydantic",
     "pylint",
     "setuptools",
     "tkinter",
