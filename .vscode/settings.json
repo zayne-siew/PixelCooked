@@ -18,6 +18,7 @@
     "gitlens.codeLens.symbolScopes": [
       "!Module"
     ],
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.formatOnSaveMode": "modificationsIfAvailable",
     "editor.wordBasedSuggestions": "allDocuments",
