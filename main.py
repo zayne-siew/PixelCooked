@@ -16,15 +16,18 @@
 ============================================
 """
 
-import random
-import os
-import tkinter as tk
 import math
+import os
+import random
+
+import tkinter as tk
+
+from src.ingredients.base import Ingredient
 
 # Constants for the game
-_GAME_NAME = 'PixelCooked!'
-_BACKGROUND = '#C0C0C0'
-_OUTLINE = 'black'
+_GAME_NAME = "PixelCooked!"
+_BACKGROUND = "#C0C0C0"
+_OUTLINE = "black"
 _OUTLINE_WIDTH = 2
 _REFRESH_IN_MS = 15
 # NOTE: For Replit, 500x300 is the maximum dimensions
@@ -34,19 +37,19 @@ _WIDTH = 660
 
 # Constants for the players
 _DIRECTIONS = ((0, -1), (0, 1), (-1, 0), (1, 0))
-_P1 = ('w', 's', 'a', 'd', 'z')
-_P2 = ('Up','Down', 'Left', 'Right', 'Return')
-_P3 = ('t', 'g', 'f', 'h', 'space')
-_P4 = ('i', 'k', 'j', 'l', 'm')
+_P1 = ("w", "s", "a", "d", "z")
+_P2 = ("Up", "Down", "Left", "Right", "Return")
+_P3 = ("t", "g", "f", "h", "space")
+_P4 = ("i", "k", "j", "l", "m")
 _PLAYERS = (_P1, _P2, _P3, _P4)
-_COLOURS = ('blue', 'purple', 'orange', 'yellow')
+_COLOURS = ("blue", "purple", "orange", "yellow")
 _PLAYER_SIZE_PERCENT = 0.8
 
 
 # Constants for the ingredients
-_FISH_FILL = '#B245A5'
-_LETTUCE_FILL = '#B9E3AB'
-_BREAD_FILL = '#FDF3E8'
+_FISH_FILL = "#B245A5"
+_LETTUCE_FILL = "#B9E3AB"
+_BREAD_FILL = "#FDF3E8"
 _INGREDIENT_SIZE_PERCENT = 0.6
 all_ingredients = set()
 
@@ -57,7 +60,6 @@ Classes for the different types of blocks
 
 
 class Block:
-
     """
     Represents a simple block on the map.
     Allows for the following:
@@ -65,10 +67,15 @@ class Block:
     """
 
     def __init__(self, screen, x, y, length, fill, outline=_OUTLINE):
-        self._block = screen.create_rectangle(x, y, x + length, y + length,
-                                             outline=outline,
-                                             fill=fill,
-                                             width=0 if outline is None else _OUTLINE_WIDTH)
+        self._block = screen.create_rectangle(
+            x,
+            y,
+            x + length,
+            y + length,
+            outline=outline,
+            fill=fill,
+            width=0 if outline is None else _OUTLINE_WIDTH,
+        )
         self._ingredient = None
         self._screen = screen
 
@@ -82,8 +89,10 @@ class Block:
         if not self.has_ingredient():
             self._ingredient = ingredient
         x1, y1, x2, y2 = self.get_coords()
-        ingredient.moveto(x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
-                          y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1))
+        ingredient.moveto(
+            x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
+            y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
+        )
 
     def remove_ingredient(self):
         ingredient = self._ingredient
@@ -92,14 +101,13 @@ class Block:
 
 
 class Placeholder(Block):
-
     """
     Represents an inaccessible block on the map.
     Does not allow for placing of ingredients.
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='gray', outline=None)
+        super().__init__(screen, x, y, length, fill="gray", outline=None)
 
     def receive_ingredient(self, ingredient):
         # Overrides the parent function to disable receiving of ingredients
@@ -107,7 +115,6 @@ class Placeholder(Block):
 
 
 class Trash(Block):
-
     """
     Represents the trash block on the map.
     Allows for the following:
@@ -115,18 +122,17 @@ class Trash(Block):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#111111')
+        super().__init__(screen, x, y, length, fill="#111111")
 
     def receive_ingredient(self, ingredient):
         # Overrides the parent function to delete ingredients once received
         global all_ingredients
-        
+
         self._screen.delete(ingredient.get_ingredient())
         all_ingredients.discard(ingredient)
 
 
 class Crate(Block):
-
     """
     Represents an ingredient crate on the map.
     Allows for the following:
@@ -143,7 +149,6 @@ class Crate(Block):
 
 
 class FishCrate(Crate):
-
     """
     Represents a crate of fish on the map.
     """
@@ -157,10 +162,12 @@ class FishCrate(Crate):
 
         # Create the new ingredient
         x1, y1, x2, y2 = self.get_coords()
-        new_ingredient = Fish(self._screen,
-                              x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
-                              y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
-                              (x2 - x1) * _INGREDIENT_SIZE_PERCENT)
+        new_ingredient = Fish(
+            self._screen,
+            x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
+            y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
+            (x2 - x1) * _INGREDIENT_SIZE_PERCENT,
+        )
 
         # Update the list of all ingredients and return the ingredient
         all_ingredients.add(new_ingredient)
@@ -168,7 +175,6 @@ class FishCrate(Crate):
 
 
 class LettuceCrate(Crate):
-
     """
     Represents a crate of lettuce on the map.
     """
@@ -182,10 +188,12 @@ class LettuceCrate(Crate):
 
         # Create the new ingredient
         x1, y1, x2, y2 = self.get_coords()
-        new_ingredient = Lettuce(self._screen,
-                                 x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
-                                 y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
-                                 (x2 - x1) * _INGREDIENT_SIZE_PERCENT)
+        new_ingredient = Lettuce(
+            self._screen,
+            x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
+            y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
+            (x2 - x1) * _INGREDIENT_SIZE_PERCENT,
+        )
 
         # Update the list of all ingredients and return the ingredient
         all_ingredients.add(new_ingredient)
@@ -193,7 +201,6 @@ class LettuceCrate(Crate):
 
 
 class BreadCrate(Crate):
-
     """
     Represents a crate of bread on the map.
     """
@@ -207,19 +214,19 @@ class BreadCrate(Crate):
 
         # Create the new ingredient
         x1, y1, x2, y2 = self.get_coords()
-        new_ingredient = Bread(self._screen,
-                               x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
-                               y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
-                               (x2 - x1) * _INGREDIENT_SIZE_PERCENT)
+        new_ingredient = Bread(
+            self._screen,
+            x1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (x2 - x1),
+            y1 + (1 - _INGREDIENT_SIZE_PERCENT) / 2 * (y2 - y1),
+            (x2 - x1) * _INGREDIENT_SIZE_PERCENT,
+        )
 
         # Update the list of all ingredients and return the ingredient
         all_ingredients.add(new_ingredient)
         return new_ingredient
-        
 
 
 class ServingBlock(Block):
-
     """
     Represents a serving block on the map for players to deliver the completed orders.
     Allows for the following:
@@ -228,10 +235,23 @@ class ServingBlock(Block):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='green')
-        self.container = {'Sashimi': 0, 'FishFillet': 0, 'FriedFish': 0, 'Fish': 0, 'Salad': 0, 'Lettuce': 0, 'Crouton': 0, 'Breadpiece': 0, 'Toast': 0, 'Bread': 0}
+        super().__init__(screen, x, y, length, fill="green")
+        self.container = {
+            "Sashimi": 0,
+            "FishFillet": 0,
+            "FriedFish": 0,
+            "Fish": 0,
+            "Salad": 0,
+            "Lettuce": 0,
+            "Crouton": 0,
+            "Breadpiece": 0,
+            "Toast": 0,
+            "Bread": 0,
+        }
         self.current_order = []
-        self.current_order.append(self.generate_order()) #appends 3 generated orders to current_order
+        self.current_order.append(
+            self.generate_order()
+        )  # appends 3 generated orders to current_order
         self.current_order.append(self.generate_order())
         self.current_order.append(self.generate_order())
         self.order_name = []
@@ -240,27 +260,44 @@ class ServingBlock(Block):
         self.framelength = 0
         self.orderframe = 0
 
-    def ingre_color(self,food_type):
-        #returns colour of food to be used by label for order menu
-        colordict = {'Sashimi':'#F56C57' , 'FishFillet':'#D3A44A' , 'FriedFish':'#A26F25' , 'Fish':'#B245A5' , 'Salad':'#9B9246' , 'Lettuce':'#B9E3AB' , 'Crouton':'#80471C' , 'Breadpiece':'#E3D5C5' , 'Toast':'#E3A10F' , 'Bread':'#FDF3E8' , '-':'grey'}
+    def ingre_color(self, food_type):
+        # returns colour of food to be used by label for order menu
+        colordict = {
+            "Sashimi": "#F56C57",
+            "FishFillet": "#D3A44A",
+            "FriedFish": "#A26F25",
+            "Fish": "#B245A5",
+            "Salad": "#9B9246",
+            "Lettuce": "#B9E3AB",
+            "Crouton": "#80471C",
+            "Breadpiece": "#E3D5C5",
+            "Toast": "#E3A10F",
+            "Bread": "#FDF3E8",
+            "-": "grey",
+        }
         return colordict[food_type]
-    
+
     def check_order(self):
-        #checks current order and if self.container has enough then removes that set of ingredients from self.container and prompts next order. Does nothing if container does not have enough ingredients.
-        x = 0 
+        # checks current order and if self.container has enough then removes that set of ingredients from self.container and prompts next order. Does nothing if container does not have enough ingredients.
+        x = 0
         for i in range(1, 4):
-            if self.current_order[0][i]== '-' or self.container[self.current_order[0][i]] > 0:
+            if (
+                self.current_order[0][i] == "-"
+                or self.container[self.current_order[0][i]] > 0
+            ):
                 x += 1
-                
+
         if x == 3:
             for i in range(1, len(self.current_order[0])):
-                if self.current_order[0][i] =='-': pass
-                else: self.container[self.current_order[0][i]] -= 1
+                if self.current_order[0][i] == "-":
+                    pass
+                else:
+                    self.container[self.current_order[0][i]] -= 1
             self.update_order()
             self.score += 1
-            print('score: ', self.score)
-            print('order done, order menu should refresh')
-    
+            print("score: ", self.score)
+            print("order done, order menu should refresh")
+
     def receive_ingredient(self, ingredient):
         # Overrides the parent function to delete ingredients once received, then increases quantity of ingredient in container by 1 and runs check_order()
         global all_ingredients
@@ -268,30 +305,34 @@ class ServingBlock(Block):
         self._screen.delete(ingredient.get_ingredient())
         all_ingredients.discard(ingredient)
         self.check_order()
-        self.update_menu(self.orderframe,self.framelength)
+        self.update_menu(self.orderframe, self.framelength)
 
     def remove_ingredient(self):
-        pass #disable removing of ingredients
-    
-    def destroy_menu(self,order_frame):
-        #destroys menu
+        pass  # disable removing of ingredients
+
+    def destroy_menu(self, order_frame):
+        # destroys menu
         for widgets in order_frame.winfo_children():
             widgets.destroy()
 
-    def update_menu(self,order_frame, length):
-        #updates menu by destroying then drawing another order menu
+    def update_menu(self, order_frame, length):
+        # updates menu by destroying then drawing another order menu
         self.destroy_menu(order_frame)
         self.draw_order_menu(order_frame, length)
-        
+
     def draw_order_menu(self, order_frame, length):
-        header_font = ('Comic Sans MS', 15)
-        subheader_font = ('Comic Sans MS', 12)
-        caption_font = ('Comic Sans MS', 10)
-        
-        #score frame
-        score_frame = tk.Frame(order_frame,bg='#c06c84', width=length * 0.3) #main frame for order 1
+        header_font = ("Comic Sans MS", 15)
+        subheader_font = ("Comic Sans MS", 12)
+        caption_font = ("Comic Sans MS", 10)
+
+        # score frame
+        score_frame = tk.Frame(
+            order_frame, bg="#c06c84", width=length * 0.3
+        )  # main frame for order 1
         score_frame.pack(side=tk.LEFT, anchor=tk.CENTER, padx=3, fill=tk.X)
-        score_label = tk.Label(score_frame, text = f'score: {self.score}', bd = 2, font=header_font,bg='grey')
+        score_label = tk.Label(
+            score_frame, text=f"score: {self.score}", bd=2, font=header_font, bg="grey"
+        )
         score_label.pack(side=tk.LEFT, anchor=tk.CENTER, fill=tk.X)
 
         """
@@ -302,38 +343,83 @@ class ServingBlock(Block):
         inventory.pack(side= tk.RIGHT)
         """
 
-        order_label = tk.Label(order_frame, bg=_BACKGROUND, text='Orders:',
-                               font=header_font, justify=tk.CENTER)
+        order_label = tk.Label(
+            order_frame,
+            bg=_BACKGROUND,
+            text="Orders:",
+            font=header_font,
+            justify=tk.CENTER,
+        )
         order_label.pack(side=tk.LEFT, anchor=tk.CENTER, padx=2)
 
         for title, ingredient_1, ingredient_2, ingredient_3 in self.current_order:
             # Create main frame for order
-            suborder_frame = tk.Frame(order_frame,bg='#355c7d', width=length * 0.3,
-                                     borderwidth=0, highlightbackground='black', highlightthickness=2)
-            suborder_frame.pack(side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True)
+            suborder_frame = tk.Frame(
+                order_frame,
+                bg="#355c7d",
+                width=length * 0.3,
+                borderwidth=0,
+                highlightbackground="black",
+                highlightthickness=2,
+            )
+            suborder_frame.pack(
+                side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True
+            )
 
             # Create top frame for order
-            title_frame = tk.Frame(suborder_frame,bg='#355c7d', width=length * 0.3)
-            title_frame.pack(side = tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
-            title_label = tk.Label(title_frame, bd=3, bg='#c06c84', text=title,
-                                   font=header_font, justify=tk.CENTER)
+            title_frame = tk.Frame(suborder_frame, bg="#355c7d", width=length * 0.3)
+            title_frame.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
+            title_label = tk.Label(
+                title_frame,
+                bd=3,
+                bg="#c06c84",
+                text=title,
+                font=header_font,
+                justify=tk.CENTER,
+            )
             title_label.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.BOTH, expand=True)
 
             # Create bottom frame for ingredients required
-            ingredient_frame = tk.Frame(suborder_frame, bg='#355c7d', width=length * 0.3)
-            ingredient_frame.pack(side = tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
-            ingredient_1_label = tk.Label(ingredient_frame, bg=self.ingre_color(ingredient_1), bd=2,
-                                          text=ingredient_1 + ('' if ingredient_1 == '-' else f' - {self.container[ingredient_1]}'),
-                                          font=subheader_font, justify=tk.CENTER)
-            ingredient_1_label.pack(side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True)
-            ingredient_2_label = tk.Label(ingredient_frame, bg=self.ingre_color(ingredient_2), bd=2,
-                                          text=ingredient_2 + ('' if ingredient_2 == '-' else f' - {self.container[ingredient_2]}'),
-                                          font=subheader_font, justify=tk.CENTER)
-            ingredient_2_label.pack(side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True)
-            ingredient_3_label = tk.Label(ingredient_frame, bg=self.ingre_color(ingredient_3), bd=2,
-                                          text=ingredient_3 + ('' if ingredient_3 == '-' else f' - {self.container[ingredient_3]}'),
-                                          font=subheader_font, justify=tk.CENTER)
-            ingredient_3_label.pack(side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True)
+            ingredient_frame = tk.Frame(
+                suborder_frame, bg="#355c7d", width=length * 0.3
+            )
+            ingredient_frame.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
+            ingredient_1_label = tk.Label(
+                ingredient_frame,
+                bg=self.ingre_color(ingredient_1),
+                bd=2,
+                text=ingredient_1
+                + ("" if ingredient_1 == "-" else f" - {self.container[ingredient_1]}"),
+                font=subheader_font,
+                justify=tk.CENTER,
+            )
+            ingredient_1_label.pack(
+                side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True
+            )
+            ingredient_2_label = tk.Label(
+                ingredient_frame,
+                bg=self.ingre_color(ingredient_2),
+                bd=2,
+                text=ingredient_2
+                + ("" if ingredient_2 == "-" else f" - {self.container[ingredient_2]}"),
+                font=subheader_font,
+                justify=tk.CENTER,
+            )
+            ingredient_2_label.pack(
+                side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True
+            )
+            ingredient_3_label = tk.Label(
+                ingredient_frame,
+                bg=self.ingre_color(ingredient_3),
+                bd=2,
+                text=ingredient_3
+                + ("" if ingredient_3 == "-" else f" - {self.container[ingredient_3]}"),
+                font=subheader_font,
+                justify=tk.CENTER,
+            )
+            ingredient_3_label.pack(
+                side=tk.LEFT, anchor=tk.CENTER, padx=1, fill=tk.BOTH, expand=True
+            )
 
         """
 
@@ -372,27 +458,33 @@ class ServingBlock(Block):
         order_2b_3.pack(side=tk.LEFT)
 
         """
-        
+
         self.orderframe = order_frame
         self.orderLength = length
 
     def update_order(self):
-        #is called when current order is completed. shifts all orders up by 1 and generates a new order using generate_order()
+        # is called when current order is completed. shifts all orders up by 1 and generates a new order using generate_order()
         self.current_order[0] = self.current_order[1]
         self.current_order[1] = self.current_order[2]
         self.current_order[2] = self.generate_order()
 
     def generate_order(self):
-        #randomly chooses an order from a list that is stored here and returns it as a list of ingredients. 1st element is name of dish, subsequent elements are the ingredients needed
-        list_of_orders = [('Sashimi','Sashimi', '-', '-'), ('FishFillet','FishFillet', '-', '-'), ('SashimiSalad','Sashimi','Salad', '-'), ('Salad','Salad', '-', '-'), ('Crouton','Crouton', '-', '-'), ('CroutonSalad','Salad','Crouton', '-'), ('FishFilletSandwich','FishFillet','Salad','Toast'),('Toast','Toast', '-', '-')]
+        # randomly chooses an order from a list that is stored here and returns it as a list of ingredients. 1st element is name of dish, subsequent elements are the ingredients needed
+        list_of_orders = [
+            ("Sashimi", "Sashimi", "-", "-"),
+            ("FishFillet", "FishFillet", "-", "-"),
+            ("SashimiSalad", "Sashimi", "Salad", "-"),
+            ("Salad", "Salad", "-", "-"),
+            ("Crouton", "Crouton", "-", "-"),
+            ("CroutonSalad", "Salad", "Crouton", "-"),
+            ("FishFilletSandwich", "FishFillet", "Salad", "Toast"),
+            ("Toast", "Toast", "-", "-"),
+        ]
         order = random.choice(list_of_orders)
         return order
 
-    
 
-    
 class ProcessBlock(Block):
-
     """
     Represents a processing block on the map.
     Allows for the following:
@@ -409,10 +501,10 @@ class ProcessBlock(Block):
         self._timer = self._max_time = time
         self._process = process
         self._to_process = False
-        
+
         # create the base outline for the loading bar
         # the base outline is represented by 4 white rectangles on the border of the block
-        _ = self._draw_border_rectangles(1, 'white')
+        _ = self._draw_border_rectangles(1, "white")
 
         # initialise the loading bar
         # the loading bar is represented by 4 rectangles on top of the base outline
@@ -426,35 +518,64 @@ class ProcessBlock(Block):
         """
         x1, y1, x2, y2 = self.get_coords()
         length = x2 - x1
-        return \
-            None if frac == 0 else self._screen.create_rectangle(
-                x1,
-                y1,
-                x1 + length * (1 - self._BAR_WIDTH_PERCENT) * 4 * min(frac, 0.25),
-                y1 + length * self._BAR_WIDTH_PERCENT,
-                fill=fill, width=0
-            ), \
-            None if frac <= 0.25 else self._screen.create_rectangle(
-                x2 - length * self._BAR_WIDTH_PERCENT,
-                y1,
-                x2,
-                y1 + length * (1 - self._BAR_WIDTH_PERCENT) * 4 * (min(frac, 0.5) - 0.25),
-                fill=fill, width=0
-            ), \
-            None if frac <= 0.5 else self._screen.create_rectangle(
-                x2,
-                y2 - length * self._BAR_WIDTH_PERCENT,
-                x2 - length * (1 - self._BAR_WIDTH_PERCENT) * 4 * (min(frac, 0.75) - 0.5),
-                y2,
-                fill=fill, width=0
-            ), \
-            None if frac <= 0.75 else self._screen.create_rectangle(
-                x1,
-                y2,
-                x1 + length * self._BAR_WIDTH_PERCENT,
-                y2 - length * (1 - self._BAR_WIDTH_PERCENT) * 4 * (frac - 0.75),
-                fill=fill, width=0
-            )
+        return (
+            (
+                None
+                if frac == 0
+                else self._screen.create_rectangle(
+                    x1,
+                    y1,
+                    x1 + length * (1 - self._BAR_WIDTH_PERCENT) * 4 * min(frac, 0.25),
+                    y1 + length * self._BAR_WIDTH_PERCENT,
+                    fill=fill,
+                    width=0,
+                )
+            ),
+            (
+                None
+                if frac <= 0.25
+                else self._screen.create_rectangle(
+                    x2 - length * self._BAR_WIDTH_PERCENT,
+                    y1,
+                    x2,
+                    y1
+                    + length
+                    * (1 - self._BAR_WIDTH_PERCENT)
+                    * 4
+                    * (min(frac, 0.5) - 0.25),
+                    fill=fill,
+                    width=0,
+                )
+            ),
+            (
+                None
+                if frac <= 0.5
+                else self._screen.create_rectangle(
+                    x2,
+                    y2 - length * self._BAR_WIDTH_PERCENT,
+                    x2
+                    - length
+                    * (1 - self._BAR_WIDTH_PERCENT)
+                    * 4
+                    * (min(frac, 0.75) - 0.5),
+                    y2,
+                    fill=fill,
+                    width=0,
+                )
+            ),
+            (
+                None
+                if frac <= 0.75
+                else self._screen.create_rectangle(
+                    x1,
+                    y2,
+                    x1 + length * self._BAR_WIDTH_PERCENT,
+                    y2 - length * (1 - self._BAR_WIDTH_PERCENT) * 4 * (frac - 0.75),
+                    fill=fill,
+                    width=0,
+                )
+            ),
+        )
 
     def _clear_loading_bar(self):
         """
@@ -482,8 +603,8 @@ class ProcessBlock(Block):
         green = round(255 * 2 * min(frac, 0.5))
         r1, r2 = divmod(red, 16)
         g1, g2 = divmod(green, 16)
-        chars = '0123456789ABCDEF'
-        fill = f'#{chars[r1]}{chars[r2]}{chars[g1]}{chars[g2]}00'
+        chars = "0123456789ABCDEF"
+        fill = f"#{chars[r1]}{chars[r2]}{chars[g1]}{chars[g2]}00"
 
         # draw rectangles
         self._loading_bar.extend(self._draw_border_rectangles(frac, fill))
@@ -494,9 +615,9 @@ class ProcessBlock(Block):
         Updates the timer and loading bar to reflect the passing of dt milliseconds.
         Once the timer hits zero, performs the process and resets the timer.
         """
-        self._timer-=dt
-        #self._update_loading_bar()
-        if self._timer <0:
+        self._timer -= dt
+        # self._update_loading_bar()
+        if self._timer < 0:
             return 0
         else:
             return self._timer
@@ -506,8 +627,7 @@ class ProcessBlock(Block):
         This function resets the timer and loading bar of the block.
         """
         self._timer = self._max_time
-        self._update_loading_bar() #add loading bar if time is !=0
-            
+        self._update_loading_bar()  # add loading bar if time is !=0
 
     def receive_ingredient(self, ingredient):
         # Overrides the parent function to start the timer once the ingredient is received
@@ -523,7 +643,6 @@ class ProcessBlock(Block):
 
 
 class ChoppingBlock(ProcessBlock):
-
     """
     Represents a chopping block on the map.
     Allows for the following:
@@ -532,14 +651,18 @@ class ChoppingBlock(ProcessBlock):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length,
-                         fill='#F5F5DC',
-                         process=lambda ingredient: ingredient.chop(),
-                         time=5)
+        super().__init__(
+            screen,
+            x,
+            y,
+            length,
+            fill="#F5F5DC",
+            process=lambda ingredient: ingredient.chop(),
+            time=5,
+        )
 
 
 class CookingBlock(ProcessBlock):
-
     """
     Represents a cooking block on the map.
     Allows for the following:
@@ -548,108 +671,20 @@ class CookingBlock(ProcessBlock):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length,
-                         fill='#ED820E',
-                         process=lambda ingredient: ingredient.cook(),
-                         time=10)
+        super().__init__(
+            screen,
+            x,
+            y,
+            length,
+            fill="#ED820E",
+            process=lambda ingredient: ingredient.cook(),
+            time=10,
+        )
 
 
 """
 Classes for the different types of ingredients
 """
-
-
-class Ingredient:
-
-    """
-    Represents a generic interactible ingredient on the map.
-    Allows for the following:
-        - Picking up / placing down
-        - Moving around
-        - Chopping and cooking
-    """
-
-    def __init__(self, screen, x, y, length, fill, *, can_chop=False, can_cook=False):
-        # (x, y) is the top left corner
-        self._ingredient = screen.create_oval(x, y, x + length, y + length,
-                                              outline=_OUTLINE,
-                                              fill=fill,
-                                              width=_OUTLINE_WIDTH)
-        self._player = None
-        self._screen = screen
-        self._can_chop = can_chop
-        self._can_cook = can_cook
-        self._type = 'None'
-    def get_food_type(self):
-        return self._type
-
-    def get_ingredient(self):
-        return self._ingredient
-
-    def get_coords(self):
-        return self._screen.coords(self._ingredient)
-
-    def move(self, x, y):
-        self._screen.move(self._ingredient, x, y)
-
-    def moveto(self, x, y):
-        self._screen.moveto(self._ingredient, x, y)
-
-    def drop(self, x=None, y=None):
-        """
-        This function takes an (x, y) coordinate to drop the ingredient to.
-        Moves the ingredient to those coordinates and removes any player owner.
-        """
-        if self._player and x is not None and y is not None:
-            self.moveto(x, y)
-        self._player = None
-
-    def pick_up(self, player):
-        """
-        This function takes the player that is about to pick up this ingredient.
-        Moves the ingredient to the player coordinates and sets the player as owner.
-        """
-        if self._player:
-            # another player has already picked this ingredient up
-            return
-        self._player = player
-        x1, y1, x2, y2 = player.get_coords()
-        x3, _, x4, _ = self.get_coords()
-        x = x1 + x3 - x4 if player.get_direction() == Player.LEFT() else \
-            x2 if player.get_direction() == Player.RIGHT() else \
-            (x1 + x2 + x3 - x4) / 2
-        y = y1 + x3 - x4 if player.get_direction() == Player.UP() else \
-            y2 if player.get_direction() == Player.DOWN() else \
-            (y1 + y2 + x3 - x4) / 2
-        self.moveto(x, y)
-
-    def can_chop(self):
-        """
-        This function indicates if the ingredient can be chopped.
-        """
-        return self._can_chop
-
-    def can_cook(self):
-        """
-        This function indicates if the ingredient can be cooked.
-        """
-        return self._can_cook
-
-    def chop(self):
-        """
-        This function returns self if the ingredient cannot be chopped.
-        Otherwise, it return the resultant ingredient from the chopping process.
-        Abstract method to be overriden in child(ren) class(es).
-        """
-        return self
-
-    def cook(self):
-        """
-        This function returns self if the ingredient cannot be cooked.
-        Otherwise, it return the resultant ingredient from the cooking process.
-        Abstract method to be overriden in child(ren) class(es).
-        """
-        return self
 
 
 class Sashimi(Ingredient):
@@ -661,8 +696,7 @@ class Sashimi(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#F56C57')
-        self._type = 'Sashimi'
+        super().__init__(screen, x, y, length, fill="#F56C57")
 
 
 class FishFillet(Ingredient):
@@ -674,8 +708,7 @@ class FishFillet(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#D3A44A')
-        self._type = 'FishFillet'
+        super().__init__(screen, x, y, length, fill="#D3A44A")
 
 
 class FriedFish(Ingredient):
@@ -687,15 +720,14 @@ class FriedFish(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#A26F25', can_chop=True)
-        self._type = 'FriedFish'
+        super().__init__(screen, x, y, length, fill="#A26F25", can_chop=True)
 
     def chop(self):
         # Overrides the parent function to return FishFillet
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = FishFillet(self._screen, x1, y1, x2 - x1)
 
@@ -717,15 +749,16 @@ class Fish(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill=_FISH_FILL, can_chop=True, can_cook=True)
-        self._type = 'Fish'
+        super().__init__(
+            screen, x, y, length, fill=_FISH_FILL, can_chop=True, can_cook=True
+        )
 
     def chop(self):
         # Overrides the parent function to return Sashimi
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = Sashimi(self._screen, x1, y1, x2 - x1)
 
@@ -741,7 +774,7 @@ class Fish(Ingredient):
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = FriedFish(self._screen, x1, y1, x2 - x1)
 
@@ -763,8 +796,7 @@ class Salad(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#9B9246')
-        self._type ='Salad'
+        super().__init__(screen, x, y, length, fill="#9B9246")
 
 
 class Lettuce(Ingredient):
@@ -777,14 +809,13 @@ class Lettuce(Ingredient):
 
     def __init__(self, screen, x, y, length):
         super().__init__(screen, x, y, length, fill=_LETTUCE_FILL, can_chop=True)
-        self._type = 'Lettuce'
 
     def chop(self):
         # Overrides the parent function to return Salad
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = Salad(self._screen, x1, y1, x2 - x1)
 
@@ -805,8 +836,7 @@ class Crouton(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#80471C')
-        self._type = 'Crouton'
+        super().__init__(screen, x, y, length, fill="#80471C")
 
 
 class BreadPiece(Ingredient):
@@ -818,15 +848,14 @@ class BreadPiece(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#E3D5C5', can_cook=True)
-        self._type = 'BreadPiece'
+        super().__init__(screen, x, y, length, fill="#E3D5C5", can_cook=True)
 
     def cook(self):
         # Overrides the parent function to return Crouton
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = Crouton(self._screen, x1, y1, x2 - x1)
 
@@ -847,8 +876,7 @@ class Toast(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill='#E3A10F')
-        self._type = 'Toast'
+        super().__init__(screen, x, y, length, fill="#E3A10F")
 
 
 class Bread(Ingredient):
@@ -861,15 +889,16 @@ class Bread(Ingredient):
     """
 
     def __init__(self, screen, x, y, length):
-        super().__init__(screen, x, y, length, fill=_BREAD_FILL, can_chop=True, can_cook=True)
-        self._type = 'Bread'
+        super().__init__(
+            screen, x, y, length, fill=_BREAD_FILL, can_chop=True, can_cook=True
+        )
 
     def chop(self):
         # Overrides the parent function to return BreadPiece
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = BreadPiece(self._screen, x1, y1, x2 - x1)
 
@@ -885,7 +914,7 @@ class Bread(Ingredient):
         global all_ingredients
 
         # Update the game screen
-        x1, y1, x2, _ = self.get_coords()
+        x1, y1, x2, _ = self.coords
         self._screen.delete(self._ingredient)
         new_ingredient = Toast(self._screen, x1, y1, x2 - x1)
 
@@ -917,23 +946,20 @@ class Player:
 
     def __init__(self, screen, x, y, length, velocity, fill):
         # (x, y) is the top left corner
-        self._ingredient = None
+        self._ingredient: Ingredient | None = None
         self._direction = self._UP
         self._vx = self._vy = 0
         self._interact = False
         self._screen = screen
         self._velocity = velocity
         self._fill = fill
-        triangle = ((x, y + length),
-            (x + 0.5 * length, y),
-            (x + length, y + length))
+        triangle = ((x, y + length), (x + 0.5 * length, y), (x + length, y + length))
         self._player = self._create(triangle)
 
     def _create(self, triangle):
-        return self._screen.create_polygon(triangle,
-                                           outline=_OUTLINE,
-                                           fill=self._fill,
-                                           width=_OUTLINE_WIDTH)
+        return self._screen.create_polygon(
+            triangle, outline=_OUTLINE, fill=self._fill, width=_OUTLINE_WIDTH
+        )
 
     @classmethod
     def UP(cls):
@@ -972,9 +998,9 @@ class Player:
         # Check if there is a need to interact
         if self._interact == False:
             return
-        
-        dist_block=distance(self,block)
-        dist_ing = float('inf') if ingredient is None else distance(self,ingredient)
+
+        dist_block = distance(self, block)
+        dist_ing = float("inf") if ingredient is None else distance(self, ingredient)
 
         # dist_min is the minimum distance from the player
         # to either the block or the ingredient
@@ -988,7 +1014,7 @@ class Player:
         radius = (x2 - x1) * self._RADIUS
 
         print(dist_min, radius)
-        
+
         if dist_min > radius:
 
             # if player has ingredient, drop ingredient
@@ -1022,70 +1048,68 @@ class Player:
         elif self.has_ingredient() and isinstance(block, ProcessBlock):
             # if block is chopping/cooking, check if ingredient can be chopped/cooked
             # Case 3
-            if (isinstance(block, ChoppingBlock) and self._ingredient.can_chop()) or \
-                   (isinstance(block, CookingBlock) and self._ingredient.can_cook()):
+            if (isinstance(block, ChoppingBlock) and self._ingredient.can_chop) or (
+                isinstance(block, CookingBlock) and self._ingredient.can_cook
+            ):
                 ingredient = self._ingredient
                 self.drop_ingredient()
                 block.receive_ingredient(ingredient)
 
-        elif self.has_ingredient() and not isinstance(block,Crate):
+        elif self.has_ingredient() and not isinstance(block, Crate):
             # if the block is a serving/trash/normal block
             # Case 3
             ingredient = self._ingredient
             self.drop_ingredient()
             block.receive_ingredient(ingredient)
 
-        elif self.has_ingredient() == False and \
-                block.has_ingredient() == True:
+        elif self.has_ingredient() == False and block.has_ingredient() == True:
             # if the player has no ingredient,
             # pick up the ingredient on the table only if there is an ingredient on the table
             # Case 4
             self.pick_up_ingredient(block.remove_ingredient())
 
         self._interact = False  # done interacting
-        
 
-    def move(self,block,players):
+    def move(self, block, players):
         """
         This function handles the movement update of the player.
-        
+
         Whenever this function is called, the function tries to move the player by
         self._vx (horizontally) and self._vy (vertically).
         If it encounters any collidable objects along the path,
         the movement of the player will be limited by the position of that object.
-        
+
         Finally, the player character is moved by (dx, dy) to the current position:
             self._screen.move(self._player, dx, dy)  # move player by dx and dy
         If the player is holding an ingredient, that ingredient is moved too:
             self._ingredient.move(dx, dy)  # move ingredient by dx and dy
         """
-        
-        self._screen.move(self._player, 0 , self._vy)
-        if (self.has_ingredient() == True):
-            self._ingredient.move(0 , self._vy)
-        
+
+        self._screen.move(self._player, 0, self._vy)
+        if self.has_ingredient() == True:
+            self._ingredient.move(0, self._vy)
+
         for player in players:
-            if intersects(self,block) or intersects(self,player) == True:
-                self._screen.move(self._player, 0 , -self._vy)
-                if (self.has_ingredient() == True):   
+            if intersects(self, block) or intersects(self, player) == True:
+                self._screen.move(self._player, 0, -self._vy)
+                if self.has_ingredient() == True:
                     self._ingredient.move(0, -self._vy)
                 break
             else:
                 pass
-                
-        self._screen.move(self._player, self._vx , 0)
-        if (self.has_ingredient() == True):
-            self._ingredient.move(self._vx , 0)
+
+        self._screen.move(self._player, self._vx, 0)
+        if self.has_ingredient() == True:
+            self._ingredient.move(self._vx, 0)
         for player in players:
-            if intersects(self,block) or intersects(self,player) == True:
-                self._screen.move(self._player, -self._vx , 0) 
-                if (self.has_ingredient() == True):
-                    self._ingredient.move(-self._vx,0 )
+            if intersects(self, block) or intersects(self, player) == True:
+                self._screen.move(self._player, -self._vx, 0)
+                if self.has_ingredient() == True:
+                    self._ingredient.move(-self._vx, 0)
                 break
             else:
                 pass
 
-    
     def has_ingredient(self):
         return self._ingredient is not None
 
@@ -1108,16 +1132,14 @@ class Player:
             self._direction = self._UP
             # Re-draw the player character to face up
             x1, y1, x2, y2 = self.get_coords()
-            triangle = ((x1, y2),
-                        (x1 + 0.5 * (x2 - x1), y1),
-                        (x2, y2))
+            triangle = ((x1, y2), (x1 + 0.5 * (x2 - x1), y1), (x2, y2))
             self._screen.delete(self._player)
             self._player = self._create(triangle)
             # Stop player from moving horizontally
             self.stop_moving_horizontally(event)
             # Re-draw the ingredient to match the player character
             if self._ingredient:
-                x3, _, x4, _ = self._ingredient.get_coords()
+                x3, _, x4, _ = self._ingredient.coords
                 self._ingredient.moveto((x1 + x2 + x3 - x4) / 2, y1 + x3 - x4)
 
     def move_down(self, event):
@@ -1131,16 +1153,14 @@ class Player:
             self._direction = self._DOWN
             # Re-draw the player character to face down
             x1, y1, x2, y2 = self.get_coords()
-            triangle = ((x1, y1),
-                        (x1 + 0.5 * (x2 - x1), y2),
-                        (x2, y1))
+            triangle = ((x1, y1), (x1 + 0.5 * (x2 - x1), y2), (x2, y1))
             self._screen.delete(self._player)
             self._player = self._create(triangle)
             # Stop player from moving horizontally
             self.stop_moving_horizontally(event)
             # Re-draw the ingredient to match the player character
             if self._ingredient:
-                x3, _, x4, _ = self._ingredient.get_coords()
+                x3, _, x4, _ = self._ingredient.coords
                 self._ingredient.moveto((x1 + x2 + x3 - x4) / 2, y2)
 
     def move_left(self, event):
@@ -1154,16 +1174,14 @@ class Player:
             self._direction = self._LEFT
             # Re-draw the player character to face left
             x1, y1, x2, y2 = self.get_coords()
-            triangle = ((x1, y1 + 0.5 * (x2 - x1)),
-                        (x2, y1),
-                        (x2, y2))
+            triangle = ((x1, y1 + 0.5 * (x2 - x1)), (x2, y1), (x2, y2))
             self._screen.delete(self._player)
             self._player = self._create(triangle)
             # Stop player from moving vertically
             self.stop_moving_vertically(event)
             # Re-draw the ingredient to match the player character
             if self._ingredient:
-                x3, _, x4, _ = self._ingredient.get_coords()
+                x3, _, x4, _ = self._ingredient.coords
                 self._ingredient.moveto(x1 + x3 - x4, (y1 + y2 + x3 - x4) / 2)
 
     def move_right(self, event):
@@ -1177,16 +1195,14 @@ class Player:
             self._direction = self._RIGHT
             # Re-draw the player character to face right
             x1, y1, x2, y2 = self.get_coords()
-            triangle = ((x1, y1),
-                        (x1, y2),
-                        (x2, y1 + 0.5 * (x2 - x1)))
+            triangle = ((x1, y1), (x1, y2), (x2, y1 + 0.5 * (x2 - x1)))
             self._screen.delete(self._player)
             self._player = self._create(triangle)
             # Stop player from moving vertically
             self.stop_moving_vertically(event)
             # Re-draw the ingredient to match the player character
             if self._ingredient:
-                x3, _, x4, _ = self._ingredient.get_coords()
+                x3, _, x4, _ = self._ingredient.coords
                 self._ingredient.moveto(x2, (y1 + y2 + x3 - x4) / 2)
 
     def stop_moving_horizontally(self, event):
@@ -1285,10 +1301,9 @@ def intersects(obj1, obj2):
     a1,b1,a2,b2 = obj1.get_coords()
     x1,y1,x2,y2 = obj2.get_coords()
     if (x1 <= a1 <= x2 or x1 <= a2 <= x2)  and (y1 <= b1 <= y2 or y1 <= b2 <= y2):
-      return True  
+        return True  
     else:
-      return False 
-  
+        return False
 
 
 def distance(obj1, obj2):
@@ -1321,17 +1336,17 @@ def distance(obj1, obj2):
     """
     x1, y1 , x2, y2 = obj1.get_coords()
     x3, y3 , x4, y4 = obj2.get_coords()
-  
+
     obj_1_x = (x1 + x2)/2 
     obj_1_y = (y1 + y2)/2
-  
+
     obj_2_x = (x3 + x4)/2
     obj_2_y = (y3 + y4)/2
 
     dist = math.sqrt(pow(obj_1_x - obj_2_x, 2) + pow(obj_1_y - obj_2_y, 2))
 
     return dist
-    
+
 
 def object_with_min_distance(obj, obj_list):
     """

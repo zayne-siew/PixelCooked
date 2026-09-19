@@ -26,15 +26,7 @@ _EXPECTED_PICKUP_COORDS = (121.0, 96.0, 151.0, 126.0)
 
 
 class TestIngredient(Ingredient):
-	"""Concrete ingredient used to exercise the abstract base class."""
-
-	def chop(self):
-		"""Return this test ingredient unchanged after chopping."""
-		return self
-
-	def cook(self):
-		"""Return this test ingredient unchanged after cooking."""
-		return self
+    """Concrete ingredient used to exercise the abstract base class."""
 
 
 class FakePlayer:

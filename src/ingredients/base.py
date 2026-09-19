@@ -1,6 +1,6 @@
 """Base class for all ingredients."""
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import overload
 
 from pydantic import BaseModel, ConfigDict, PrivateAttr, computed_field
@@ -264,7 +264,6 @@ class Ingredient(BaseModel, ABC):
         )
         self.moveto(x, y)
 
-    @abstractmethod
     def chop(self) -> "Ingredient":
         """Returns the resultant ingredient from the chopping process.
 
@@ -275,7 +274,6 @@ class Ingredient(BaseModel, ABC):
         """
         return self
 
-    @abstractmethod
     def cook(self) -> "Ingredient":
         """Returns the resultant ingredient from the cooking process.
         
