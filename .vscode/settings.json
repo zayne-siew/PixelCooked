@@ -5,6 +5,7 @@
     "pylint",
     "setuptools",
     "tkinter",
+    "venv",
     "venvs"
   ],
   "editor.rulers": [

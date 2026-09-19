@@ -1,22 +1,33 @@
-# PixelCooked!
+# PixelCooked
 
 ## Description
+
 This game is a re-creation of "Overcooked!" done in Python Tkinter using only standard libraries.
 
 ## Installation
-This game requires Python v3.8.0 <= local interpreter < v3.9. Download `main.py` and run the following command in the download folder to play the game:
 
+This game supports Python 3.12 to 3.14. Clone this repository and set up dependencies:
+
+```shell
+# from the repository root
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -e .
 ```
+
+The main game is runnable from the repository root:
+
+```shell
 python3 main.py
 ```
 
-~~Alternatively, import this project into Replit.~~
-This feature has been temporarily disabled.
-
 ## Acknowledgements
-This project is an undertaking of SUTD 10.014 Computational Thinking and Design, as part of passing requirements.
+
+This project was previously an undertaking of SUTD 10.014 Computational Thinking and Design.
 
 Fellow contributors:
+
 - Isaiah Rafael
 - Tan Shin Herng
 - Jeriel Ng Le Xuan
