@@ -23,15 +23,26 @@ class Player(BaseModel):
     """The direction the player is facing."""
 
     def __init__(
-            self,
-            screen: tk.Canvas,
-            x: float,
-            y: float,
-            length: float,
-            velocity,
-            fill,
+        self,
+        screen: tk.Canvas,
+        x: float,
+        y: float,
+        length: float,
+        velocity,
+        fill,
     ):
-        # (x, y) is the top left corner
+        """Initializes the player.
+
+        Args:
+            screen (tk.Canvas): The canvas on which the player is drawn.
+            x (float): The x-coordinate of the top left corner of the player.
+            y (float): The y-coordinate of the top left corner of the player.
+            length (float): The length of the player (assumed to be square).
+            velocity: The velocity of the player.
+            fill: The fill color of the player.
+        """
+
+        super().__init__()
         self._ingredient = None
         self._direction = PlayerDirection.UP
         self._vx = self._vy = 0
@@ -43,10 +54,19 @@ class Player(BaseModel):
             (x + 0.5 * length, y),
             (x + length, y + length))
         self._player = self._create(triangle)
-    
-    def _create(self, triangle: Sequence[float]) -> int:
+
+    def _create(self, triangle: Sequence[tuple[float, float]]) -> int:
+        """Create the player on the canvas.
+
+        Args:
+            triangle (Sequence[tuple[float, float]]):
+                The coordinates of the triangle representing the player.
+
+        Returns:
+            int: The ID of the player on the canvas.
+        """
         return self._screen.create_polygon(
-            triangle,
+            tuple(triangle),
             outline=OUTLINE_COLOR,
             fill=self._fill,
             width=OUTLINE_WIDTH_PX,
