@@ -688,7 +688,6 @@ Classes for the different types of ingredients
 
 
 class Sashimi(Ingredient):
-
     """
     Represents the sashimi ingredient.
     Allows for the following:
@@ -700,7 +699,6 @@ class Sashimi(Ingredient):
 
 
 class FishFillet(Ingredient):
-
     """
     Represents the fish fillet ingredient.
     Allows for the following:
@@ -712,7 +710,6 @@ class FishFillet(Ingredient):
 
 
 class FriedFish(Ingredient):
-
     """
     Represents the fried fish ingredient.
     Allows for the following:
@@ -740,7 +737,6 @@ class FriedFish(Ingredient):
 
 
 class Fish(Ingredient):
-
     """
     Represents the raw fish ingredient.
     Allows for the following:
@@ -787,7 +783,6 @@ class Fish(Ingredient):
 
 
 class Salad(Ingredient):
-
     """
     Represents the salad ingredient.
     Allows for the following:
@@ -800,7 +795,6 @@ class Salad(Ingredient):
 
 
 class Lettuce(Ingredient):
-
     """
     Represents the lettuce ingredient.
     Allows for the following:
@@ -828,7 +822,6 @@ class Lettuce(Ingredient):
 
 
 class Crouton(Ingredient):
-
     """
     Represents the croutons ingredient.
     Allows for the following:
@@ -840,7 +833,6 @@ class Crouton(Ingredient):
 
 
 class BreadPiece(Ingredient):
-
     """
     Represents the bread pieces ingredient.
     Allows for the following:
@@ -868,7 +860,6 @@ class BreadPiece(Ingredient):
 
 
 class Toast(Ingredient):
-
     """
     Represents the toast ingredient.
     Allows for the following:
@@ -880,7 +871,6 @@ class Toast(Ingredient):
 
 
 class Bread(Ingredient):
-
     """
     Represents the bread ingredient.
     Allows for the following:
@@ -932,7 +922,6 @@ The player class
 
 
 class Player:
-
     """
     Represents a human player.
     Allows for the following:
@@ -1227,32 +1216,32 @@ def bind_player_controls(window, players, controls):
     # Expects a list of players and a list of controls, both of the same length
     window.focus_set()
     for player, (up, down, left, right, interact) in zip(players, controls):
-        window.bind(f'<KeyPress-{up}>', player.move_up)
-        window.bind(f'<KeyPress-{down}>', player.move_down)
-        window.bind(f'<KeyPress-{left}>', player.move_left)
-        window.bind(f'<KeyPress-{right}>', player.move_right)
-        window.bind(f'<KeyPress-{interact}>', player.try_interact)
-        window.bind(f'<KeyRelease-{up}>', player.stop_moving_vertically)
-        window.bind(f'<KeyRelease-{down}>', player.stop_moving_vertically)
-        window.bind(f'<KeyRelease-{left}>', player.stop_moving_horizontally)
-        window.bind(f'<KeyRelease-{right}>', player.stop_moving_horizontally)
-        window.bind(f'<KeyRelease-{interact}>', player.stop_interact)
+        window.bind(f"<KeyPress-{up}>", player.move_up)
+        window.bind(f"<KeyPress-{down}>", player.move_down)
+        window.bind(f"<KeyPress-{left}>", player.move_left)
+        window.bind(f"<KeyPress-{right}>", player.move_right)
+        window.bind(f"<KeyPress-{interact}>", player.try_interact)
+        window.bind(f"<KeyRelease-{up}>", player.stop_moving_vertically)
+        window.bind(f"<KeyRelease-{down}>", player.stop_moving_vertically)
+        window.bind(f"<KeyRelease-{left}>", player.stop_moving_horizontally)
+        window.bind(f"<KeyRelease-{right}>", player.stop_moving_horizontally)
+        window.bind(f"<KeyRelease-{interact}>", player.stop_interact)
 
 
 def unbind_player_controls(window, controls):
     # Expects a list of conrols
     window.focus_set()
-    for (up, down, left, right, interact) in controls:
-        window.unbind(f'<KeyPress-{up}>')
-        window.unbind(f'<KeyPress-{down}>')
-        window.unbind(f'<KeyPress-{left}>')
-        window.unbind(f'<KeyPress-{right}>')
-        window.unbind(f'<KeyPress-{interact}>')
-        window.unbind(f'<KeyRelease-{up}>')
-        window.unbind(f'<KeyRelease-{down}>')
-        window.unbind(f'<KeyRelease-{left}>')
-        window.unbind(f'<KeyRelease-{right}>')
-        window.unbind(f'<KeyRelease-{interact}>')
+    for up, down, left, right, interact in controls:
+        window.unbind(f"<KeyPress-{up}>")
+        window.unbind(f"<KeyPress-{down}>")
+        window.unbind(f"<KeyPress-{left}>")
+        window.unbind(f"<KeyPress-{right}>")
+        window.unbind(f"<KeyPress-{interact}>")
+        window.unbind(f"<KeyRelease-{up}>")
+        window.unbind(f"<KeyRelease-{down}>")
+        window.unbind(f"<KeyRelease-{left}>")
+        window.unbind(f"<KeyRelease-{right}>")
+        window.unbind(f"<KeyRelease-{interact}>")
 
 
 def intersects(obj1, obj2):
@@ -1298,10 +1287,10 @@ def intersects(obj1, obj2):
     print(block6.get_coords())  # prints 25 35 105 115
     print(intersects(player1, block6))  # prints True
     """
-    a1,b1,a2,b2 = obj1.get_coords()
-    x1,y1,x2,y2 = obj2.get_coords()
-    if (x1 <= a1 <= x2 or x1 <= a2 <= x2)  and (y1 <= b1 <= y2 or y1 <= b2 <= y2):
-        return True  
+    a1, b1, a2, b2 = obj1.get_coords()
+    x1, y1, x2, y2 = obj2.get_coords()
+    if (x1 <= a1 <= x2 or x1 <= a2 <= x2) and (y1 <= b1 <= y2 or y1 <= b2 <= y2):
+        return True
     else:
         return False
 
@@ -1334,14 +1323,14 @@ def distance(obj1, obj2):
     print(block2.get_coords())  # prints 150 150 200 200
     print(distance(player1, block2))  # prints 70.7106...
     """
-    x1, y1 , x2, y2 = obj1.get_coords()
-    x3, y3 , x4, y4 = obj2.get_coords()
+    x1, y1, x2, y2 = obj1.get_coords()
+    x3, y3, x4, y4 = obj2.get_coords()
 
-    obj_1_x = (x1 + x2)/2 
-    obj_1_y = (y1 + y2)/2
+    obj_1_x = (x1 + x2) / 2
+    obj_1_y = (y1 + y2) / 2
 
-    obj_2_x = (x3 + x4)/2
-    obj_2_y = (y3 + y4)/2
+    obj_2_x = (x3 + x4) / 2
+    obj_2_y = (y3 + y4) / 2
 
     dist = math.sqrt(pow(obj_1_x - obj_2_x, 2) + pow(obj_1_y - obj_2_y, 2))
 
@@ -1361,15 +1350,15 @@ def object_with_min_distance(obj, obj_list):
     """
     total_dist_list = []
     for i in obj_list:
-    
-        object_with_dist = distance(obj,i)
+
+        object_with_dist = distance(obj, i)
         total_dist_list.append(object_with_dist)
-    
+
     index_dist = total_dist_list.index(min(total_dist_list))
     return obj_list[index_dist]
 
+    # index of min dist match obj in the list
 
-    #index of min dist match obj in the list
 
 def ms_to_time(ms):
     """
@@ -1381,7 +1370,9 @@ def ms_to_time(ms):
     """
     seconds, milliseconds = divmod(ms, 1000)
     minutes, seconds = divmod(seconds, 60)
-    return f'{str(minutes).zfill(2)}:{str(seconds).zfill(2)}:{str(milliseconds).zfill(3)}'
+    return (
+        f"{str(minutes).zfill(2)}:{str(seconds).zfill(2)}:{str(milliseconds).zfill(3)}"
+    )
 
 
 def time_to_ms(time):
@@ -1393,22 +1384,29 @@ def time_to_ms(time):
         DDD - the number of milliseconds
     Returns the number of milliseconds.
     """
-    minutes, seconds, milliseconds = map(int, time.split(':'))
+    minutes, seconds, milliseconds = map(int, time.split(":"))
     return minutes * 60000 + seconds * 1000 + milliseconds
 
 
-def update_game_frame(grid_length, grid_width,
-                      window, timer,
-                      players, controls,
-                      all_blocks, process_blocks, serving_block):
+def update_game_frame(
+    grid_length,
+    grid_width,
+    window,
+    timer,
+    players,
+    controls,
+    all_blocks,
+    process_blocks,
+    serving_block,
+):
     """
     This function updates the attributes of all objects on the map according to:
         - The amount of time passed, calculated from the (approximated) frame rate
         - User input at the given moment, handled by event bindings to the relevant functions
     """
     global all_ingredients
-    ms = time_to_ms(timer.cget('text'))
-    
+    ms = time_to_ms(timer.cget("text"))
+
     # Stop the game if there is no time remaining
     if ms == 0:
         for player in players:
@@ -1448,19 +1446,26 @@ def update_game_frame(grid_length, grid_width,
             if ingredient._player is not None:
                 # ingredient is currently carried by a player
                 continue
-            if (irow, icol) in all_blocks and all_blocks[(irow, icol)]._ingredient == ingredient:
+            if (irow, icol) in all_blocks and all_blocks[
+                (irow, icol)
+            ]._ingredient == ingredient:
                 # ingredient is currently placed on a block
                 continue
-            elif (dx == 0 and abs(icol - col) <= 1 and (irow - row) * dy > 0) or \
-                   (dy == 0 and abs(irow - row) <= 1 and (icol - col) * dx > 0):
+            elif (dx == 0 and abs(icol - col) <= 1 and (irow - row) * dy > 0) or (
+                dy == 0 and abs(irow - row) <= 1 and (icol - col) * dx > 0
+            ):
                 ingredients_to_check.append(ingredient)
         nearest_ingredient = None
         if ingredients_to_check:
             nearest_ingredient = object_with_min_distance(player, ingredients_to_check)
-        
+
         # Get the block nearest to the player
         blocks_to_check = []
-        while len(blocks_to_check) == 0 and 0 <= col < grid_length and 0 <= row < grid_width:
+        while (
+            len(blocks_to_check) == 0
+            and 0 <= col < grid_length
+            and 0 <= row < grid_width
+        ):
             if (row, col) in all_blocks:
                 blocks_to_check.append(all_blocks[(row, col)])
             if dx == 0 and (row, col + crmd) in all_blocks:
@@ -1470,24 +1475,24 @@ def update_game_frame(grid_length, grid_width,
             row += dy
             col += dx
         nearest_block = object_with_min_distance(player, blocks_to_check)
-        
+
         # Update player movement and player interaction
-        player.move(nearest_block, players[:i] + players[i+1:])
+        player.move(nearest_block, players[:i] + players[i + 1 :])
         player.interact(nearest_block, nearest_ingredient)
 
     # 3. Update timer for each process block, if applicable
     for block in process_blocks:
-        '''
+        """
         This section checks if the block has an ingredient, if so, set process to true
         Block calls update_timer() to check and countdown the timer based on the game
         When the returned timer==0, Block will process the ingredient and set process to false.
         E.g, when Fish is placed on Block, it becomes Sashimi after timer==0
         Sashimi does not need to be processed (cooked/chop) anymore
-        '''
+        """
         if block.has_ingredient():
-            print(block.update_timer(0.1/_REFRESH_IN_MS))
+            print(block.update_timer(0.1 / _REFRESH_IN_MS))
             print(block._ingredient)
-            if block.update_timer(0.1/_REFRESH_IN_MS) == 0  :
+            if block.update_timer(0.1 / _REFRESH_IN_MS) == 0:
                 print("Timer 0")
                 block._process(block._ingredient)
                 block._to_process = False
@@ -1496,11 +1501,20 @@ def update_game_frame(grid_length, grid_width,
         break
 
     # Wait for the desired FPS to refresh the screen and update again
-    window.after(_REFRESH_IN_MS,
-                 lambda: update_game_frame(grid_length, grid_width,
-                                           window, timer,
-                                           players, controls,
-                                           all_blocks, process_blocks, serving_block))
+    window.after(
+        _REFRESH_IN_MS,
+        lambda: update_game_frame(
+            grid_length,
+            grid_width,
+            window,
+            timer,
+            players,
+            controls,
+            all_blocks,
+            process_blocks,
+            serving_block,
+        ),
+    )
 
 
 """
@@ -1536,11 +1550,13 @@ def is_block_accessible(row, col, grid_length, grid_width, blocks, placeholders)
     and all other placeholders and blocks already generated.
     Returns True if the new block is accessible and False otherwise.
     """
-    return any(0 <= col + dc < grid_length and
-               0 <= row + dr < grid_width and
-               (row + dr, col + dc) not in placeholders and
-               (row + dr, col + dc) not in blocks
-               for dr, dc in _DIRECTIONS)
+    return any(
+        0 <= col + dc < grid_length
+        and 0 <= row + dr < grid_width
+        and (row + dr, col + dc) not in placeholders
+        and (row + dr, col + dc) not in blocks
+        for dr, dc in _DIRECTIONS
+    )
 
 
 def generate_map(screen, block_length, grid_length, grid_width, probability):
@@ -1555,7 +1571,7 @@ def generate_map(screen, block_length, grid_length, grid_width, probability):
 
     Next, the function determines which blocks should be assigned a specialised role.
     There are 7 different types of specialised blocks which need to be taken into consideration:
-    
+
           Block Type     Minimum Number   Maximum Number
         ==============   ==============   ==============
           Fish Crate           1                1
@@ -1582,7 +1598,7 @@ def generate_map(screen, block_length, grid_length, grid_width, probability):
         (0, 0),
         (0, grid_length - 1),
         (grid_width - 1, 0),
-        (grid_width - 1, grid_length - 1)
+        (grid_width - 1, grid_length - 1),
     }
     blocks = set()
     for row in range(1, grid_width - 1):
@@ -1600,11 +1616,20 @@ def generate_map(screen, block_length, grid_length, grid_width, probability):
             # Generate the coordinates of the next block
             coord = random.randint(0, grid_length * grid_width - 1)
             row, col = divmod(coord, grid_length)
-            while attempts < 10 and \
-                    ((row, col) in blocks or
-                     (row, col) in placeholders or
-                     not is_map_accessible({(r, c) for r in range(grid_width) for c in range(grid_length)
-                                           if (r, c) not in placeholders and (r, c) not in blocks and (r, c) != (row, col)})):
+            while attempts < 10 and (
+                (row, col) in blocks
+                or (row, col) in placeholders
+                or not is_map_accessible(
+                    {
+                        (r, c)
+                        for r in range(grid_width)
+                        for c in range(grid_length)
+                        if (r, c) not in placeholders
+                        and (r, c) not in blocks
+                        and (r, c) != (row, col)
+                    }
+                )
+            ):
                 coord = random.randint(0, grid_length * grid_width - 1)
                 row, col = divmod(coord, grid_length)
                 # Try again; maximum of 10 attempts
@@ -1612,13 +1637,16 @@ def generate_map(screen, block_length, grid_length, grid_width, probability):
             if attempts == 10:
                 break
             # Generate the next block and check adjacent blocks
-            if is_block_accessible(row, col, grid_length, grid_width, blocks, placeholders):
+            if is_block_accessible(
+                row, col, grid_length, grid_width, blocks, placeholders
+            ):
                 blocks.add((row, col))
             else:
                 placeholders.add((row, col))
             for dr, dc in _DIRECTIONS:
-                if (row + dr, col + dc) in blocks and \
-                        not is_block_accessible(row + dr, col + dc, grid_length, grid_width, blocks, placeholders):
+                if (row + dr, col + dc) in blocks and not is_block_accessible(
+                    row + dr, col + dc, grid_length, grid_width, blocks, placeholders
+                ):
                     blocks.discard((row + dr, col + dc))
                     placeholders.add((row + dr, col + dc))
             # Reset the attempt counter for the next iteration
@@ -1632,57 +1660,93 @@ def generate_map(screen, block_length, grid_length, grid_width, probability):
     # and one or more each of chopping and cooking blocks
     individual_blocks = []
     for _ in range(7):
-        crate = list(blocks)[random.randint(0, len(blocks)-1)]
+        crate = list(blocks)[random.randint(0, len(blocks) - 1)]
         blocks.remove(crate)
         individual_blocks.append(crate)
     cooking_blocks = [individual_blocks.pop()]
     chopping_blocks = [individual_blocks.pop()]
-    (fish_crate_row, fish_crate_col), \
-        (lettuce_crate_row, lettuce_crate_col), \
-        (bread_crate_row, bread_crate_col), \
-        (serving_block_row, serving_block_col), \
-        (trash_block_row, trash_block_col) = individual_blocks
+    (
+        (fish_crate_row, fish_crate_col),
+        (lettuce_crate_row, lettuce_crate_col),
+        (bread_crate_row, bread_crate_col),
+        (serving_block_row, serving_block_col),
+        (trash_block_row, trash_block_col),
+    ) = individual_blocks
 
     # Determine if there should be more than 1 chopping block
     # or more than 1 cooking block
     while blocks and random.random() <= probability:
-        chopping_block = list(blocks)[random.randint(0, len(blocks)-1)]
+        chopping_block = list(blocks)[random.randint(0, len(blocks) - 1)]
         blocks.remove(chopping_block)
         chopping_blocks.append(chopping_block)
     while blocks and random.random() <= probability:
-        cooking_block = list(blocks)[random.randint(0, len(blocks)-1)]
+        cooking_block = list(blocks)[random.randint(0, len(blocks) - 1)]
         blocks.remove(cooking_block)
         cooking_blocks.append(cooking_block)
 
     # Generate all the blocks and placeholders
     all_placeholders = {
-        (row, col): Placeholder(screen, col * block_length, row * block_length, block_length)
+        (row, col): Placeholder(
+            screen, col * block_length, row * block_length, block_length
+        )
         for row, col in placeholders
     }
     all_blocks = {
-        (row, col): Block(screen, col * block_length, row * block_length, block_length, fill='brown')
+        (row, col): Block(
+            screen, col * block_length, row * block_length, block_length, fill="brown"
+        )
         for row, col in blocks
     }
     all_chopping_blocks = {
-        (row, col): ChoppingBlock(screen, col * block_length, row * block_length, block_length)
+        (row, col): ChoppingBlock(
+            screen, col * block_length, row * block_length, block_length
+        )
         for row, col in chopping_blocks
     }
     all_cooking_blocks = {
-        (row, col): CookingBlock(screen, col * block_length, row * block_length, block_length)
+        (row, col): CookingBlock(
+            screen, col * block_length, row * block_length, block_length
+        )
         for row, col in cooking_blocks
     }
-    return \
-        all_placeholders, \
-        all_blocks, \
-        all_chopping_blocks, \
-        all_cooking_blocks, \
+    return (
+        all_placeholders,
+        all_blocks,
+        all_chopping_blocks,
+        all_cooking_blocks,
         {
-            (fish_crate_row, fish_crate_col): FishCrate(screen, fish_crate_col * block_length, fish_crate_row * block_length, block_length),
-            (lettuce_crate_row, lettuce_crate_col): LettuceCrate(screen, lettuce_crate_col * block_length, lettuce_crate_row * block_length, block_length),
-            (bread_crate_row, bread_crate_col): BreadCrate(screen, bread_crate_col * block_length, bread_crate_row * block_length, block_length),
-            (serving_block_row, serving_block_col): ServingBlock(screen, serving_block_col * block_length, serving_block_row * block_length, block_length),
-            (trash_block_row, trash_block_col): Trash(screen, trash_block_col * block_length, trash_block_row * block_length, block_length)
-        }
+            (fish_crate_row, fish_crate_col): FishCrate(
+                screen,
+                fish_crate_col * block_length,
+                fish_crate_row * block_length,
+                block_length,
+            ),
+            (lettuce_crate_row, lettuce_crate_col): LettuceCrate(
+                screen,
+                lettuce_crate_col * block_length,
+                lettuce_crate_row * block_length,
+                block_length,
+            ),
+            (bread_crate_row, bread_crate_col): BreadCrate(
+                screen,
+                bread_crate_col * block_length,
+                bread_crate_row * block_length,
+                block_length,
+            ),
+            (serving_block_row, serving_block_col): ServingBlock(
+                screen,
+                serving_block_col * block_length,
+                serving_block_row * block_length,
+                block_length,
+            ),
+            (trash_block_row, trash_block_col): Trash(
+                screen,
+                trash_block_col * block_length,
+                trash_block_row * block_length,
+                block_length,
+            ),
+        },
+    )
 
 
 """
@@ -1702,18 +1766,28 @@ def create_info_screen(info_frame, length, time):
     """
     This function takes in the information frame and creates the information screen on it.
     It creates and displays the new screen without replacing any previous screens.
-    
+
     The function takes in the time (in milliseconds) and displays a timer on the left.
     Then, the function displays the order menu on the right.
-    
+
     Returns the timer label and the order screen in the info screen for updating.
     """
     # Create timer component
-    timer_label = tk.Label(info_frame, bg=_BACKGROUND, text='Time Remaining:',
-                           font=('Arial', 15), justify=tk.CENTER)
+    timer_label = tk.Label(
+        info_frame,
+        bg=_BACKGROUND,
+        text="Time Remaining:",
+        font=("Arial", 15),
+        justify=tk.CENTER,
+    )
     timer_label.pack(side=tk.LEFT, anchor=tk.CENTER, padx=1)
-    timer = tk.Label(info_frame, bg=_BACKGROUND, text=ms_to_time(time),
-                     font=('Arial', 15), justify=tk.CENTER)
+    timer = tk.Label(
+        info_frame,
+        bg=_BACKGROUND,
+        text=ms_to_time(time),
+        font=("Arial", 15),
+        justify=tk.CENTER,
+    )
     timer.pack(side=tk.LEFT, anchor=tk.CENTER, padx=3)
 
     # Create order menu component
@@ -1730,103 +1804,259 @@ def create_helper_screen(helper_frame, num_players):
     It creates and displays the helper screen without replacing any previous screens.
     """
     block_length = _WIDTH / 25
-    font = ('Arial', 10)
+    font = ("Arial", 10)
 
     # Create title label
-    title_label = tk.Label(helper_frame, bg=_BACKGROUND, text='How to Play',
-                           font=('Arial', 15), justify=tk.CENTER)
+    title_label = tk.Label(
+        helper_frame,
+        bg=_BACKGROUND,
+        text="How to Play",
+        font=("Arial", 15),
+        justify=tk.CENTER,
+    )
     title_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.X, expand=True)
-    
+
     # Create canvas
-    helper_screen = tk.Canvas(helper_frame, bg='white', width=block_length * 12, height=_WIDTH)
+    helper_screen = tk.Canvas(
+        helper_frame, bg="white", width=block_length * 12, height=_WIDTH
+    )
     helper_screen.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.BOTH, expand=True)
 
     # Generate player
-    player = Player(helper_screen, block_length, block_length, block_length, 0, fill=_COLOURS[0])
-    helper_screen.create_text(7 * block_length, 1.5 * block_length,
-                              text='Player character\nMove/interact with the given keys',
-                              font=font, fill='black', justify=tk.CENTER)
+    player = Player(
+        helper_screen, block_length, block_length, block_length, 0, fill=_COLOURS[0]
+    )
+    helper_screen.create_text(
+        7 * block_length,
+        1.5 * block_length,
+        text="Player character\nMove/interact with the given keys",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the default block
-    block = Block(helper_screen, block_length, 3 * block_length, block_length, fill='brown')
-    helper_screen.create_text(7 * block_length, 3.5 * block_length,
-                              text='A normal block\nPlace/remove ingredients here',
-                              font=font, fill='black', justify=tk.CENTER)
+    block = Block(
+        helper_screen, block_length, 3 * block_length, block_length, fill="brown"
+    )
+    helper_screen.create_text(
+        7 * block_length,
+        3.5 * block_length,
+        text="A normal block\nPlace/remove ingredients here",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the trash block
     trash = Trash(helper_screen, block_length, 5 * block_length, block_length)
-    helper_screen.create_text(7 * block_length, 5.5 * block_length,
-                              text='Trash block\nPlace ingredients here to delete them',
-                              font=font, fill='black', justify=tk.CENTER)
+    helper_screen.create_text(
+        7 * block_length,
+        5.5 * block_length,
+        text="Trash block\nPlace ingredients here to delete them",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the crates
     fish_crate = FishCrate(helper_screen, block_length, 7 * block_length, block_length)
-    lettuce_crate = LettuceCrate(helper_screen, block_length, 8 * block_length, block_length)
-    bread_crate = BreadCrate(helper_screen, block_length, 9 * block_length, block_length)
-    helper_screen.create_text(7 * block_length, 8.5 * block_length,
-                              text='Ingredient crates\nInteract with them to obtain\nfish, lettuce, and bread respectively',
-                              font=font, fill='black', justify=tk.CENTER)
+    lettuce_crate = LettuceCrate(
+        helper_screen, block_length, 8 * block_length, block_length
+    )
+    bread_crate = BreadCrate(
+        helper_screen, block_length, 9 * block_length, block_length
+    )
+    helper_screen.create_text(
+        7 * block_length,
+        8.5 * block_length,
+        text="Ingredient crates\nInteract with them to obtain\nfish, lettuce, and bread respectively",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the chopping block
-    chopping_block = ChoppingBlock(helper_screen, block_length, 11 * block_length, block_length)
-    helper_screen.create_text(7 * block_length, 11.5 * block_length,
-                              text='Chopping block\nPlace ingredients here, wait for the bar to finish\nNote: some ingredients cannot be chopped!',
-                              font=font, fill='black', justify=tk.CENTER)
+    chopping_block = ChoppingBlock(
+        helper_screen, block_length, 11 * block_length, block_length
+    )
+    helper_screen.create_text(
+        7 * block_length,
+        11.5 * block_length,
+        text="Chopping block\nPlace ingredients here, wait for the bar to finish\nNote: some ingredients cannot be chopped!",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the cooking block
-    cooking_block = CookingBlock(helper_screen, block_length, 13 * block_length, block_length)
-    helper_screen.create_text(7 * block_length, 13.5 * block_length,
-                              text='Cooking block\nPlace ingredients here, wait for the bar to finish\nNote: some ingredients cannot be cooked!',
-                              font=font, fill='black', justify=tk.CENTER)
+    cooking_block = CookingBlock(
+        helper_screen, block_length, 13 * block_length, block_length
+    )
+    helper_screen.create_text(
+        7 * block_length,
+        13.5 * block_length,
+        text="Cooking block\nPlace ingredients here, wait for the bar to finish\nNote: some ingredients cannot be cooked!",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the serving block
-    serving_block = Block(helper_screen, block_length, 15 * block_length, block_length, fill='green')
-    helper_screen.create_text(7 * block_length, 15.5 * block_length,
-                              text='Serving block\nPlace ingredients here to serve\nServe ingredients required in the current order!',
-                              font=font, fill='black', justify=tk.CENTER)
+    serving_block = Block(
+        helper_screen, block_length, 15 * block_length, block_length, fill="green"
+    )
+    helper_screen.create_text(
+        7 * block_length,
+        15.5 * block_length,
+        text="Serving block\nPlace ingredients here to serve\nServe ingredients required in the current order!",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
     # Generate the chopping and cooking table
     # Hot-coded garbage :<
-    helper_screen.create_text(5 * block_length, 17.5 * block_length, text='Chop',
-                              font=font, fill='black', justify=tk.CENTER)
-    helper_screen.create_text(8 * block_length, 17.5 * block_length, text='Cook',
-                              font=font, fill='black', justify=tk.CENTER)
+    helper_screen.create_text(
+        5 * block_length,
+        17.5 * block_length,
+        text="Chop",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    helper_screen.create_text(
+        8 * block_length,
+        17.5 * block_length,
+        text="Cook",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
     fish = Fish(helper_screen, 1.5 * block_length, 18 * block_length, block_length)
-    helper_screen.create_text(2 * block_length, 18.5 * block_length, text='Fish',
-                              font=font, fill='black', justify=tk.CENTER)
-    sashimi_1 = Sashimi(helper_screen, 4.5 * block_length, 18 * block_length, block_length)
-    helper_screen.create_text(5 * block_length, 18.5 * block_length, text='Sashimi',
-                              font=font, fill='black', justify=tk.CENTER)
-    fried_fish_1 = FriedFish(helper_screen, 7.5 * block_length, 18 * block_length, block_length)
-    helper_screen.create_text(8 * block_length, 18.5 * block_length, text='Fried Fish',
-                              font=font, fill='black', justify=tk.CENTER)
-    lettuce = Lettuce(helper_screen, 1.5 * block_length, 19 * block_length, block_length)
-    helper_screen.create_text(2 * block_length, 19.5 * block_length, text='Lettuce',
-                              font=font, fill='black', justify=tk.CENTER)
+    helper_screen.create_text(
+        2 * block_length,
+        18.5 * block_length,
+        text="Fish",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    sashimi_1 = Sashimi(
+        helper_screen, 4.5 * block_length, 18 * block_length, block_length
+    )
+    helper_screen.create_text(
+        5 * block_length,
+        18.5 * block_length,
+        text="Sashimi",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    fried_fish_1 = FriedFish(
+        helper_screen, 7.5 * block_length, 18 * block_length, block_length
+    )
+    helper_screen.create_text(
+        8 * block_length,
+        18.5 * block_length,
+        text="Fried Fish",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    lettuce = Lettuce(
+        helper_screen, 1.5 * block_length, 19 * block_length, block_length
+    )
+    helper_screen.create_text(
+        2 * block_length,
+        19.5 * block_length,
+        text="Lettuce",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
     salad = Salad(helper_screen, 4.5 * block_length, 19 * block_length, block_length)
-    helper_screen.create_text(5 * block_length, 19.5 * block_length, text='Salad',
-                              font=font, fill='black', justify=tk.CENTER)
+    helper_screen.create_text(
+        5 * block_length,
+        19.5 * block_length,
+        text="Salad",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
     bread = Bread(helper_screen, 1.5 * block_length, 20 * block_length, block_length)
-    helper_screen.create_text(2 * block_length, 20.5 * block_length, text='Bread',
-                              font=font, fill='black', justify=tk.CENTER)
-    bread_piece_1 = BreadPiece(helper_screen, 4.5 * block_length, 20 * block_length, block_length)
-    helper_screen.create_text(5 * block_length, 20.5 * block_length, text='Bread Pieces',
-                              font=font, fill='black', justify=tk.CENTER)
+    helper_screen.create_text(
+        2 * block_length,
+        20.5 * block_length,
+        text="Bread",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    bread_piece_1 = BreadPiece(
+        helper_screen, 4.5 * block_length, 20 * block_length, block_length
+    )
+    helper_screen.create_text(
+        5 * block_length,
+        20.5 * block_length,
+        text="Bread Pieces",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
     toast = Toast(helper_screen, 7.5 * block_length, 20 * block_length, block_length)
-    helper_screen.create_text(8 * block_length, 20.5 * block_length, text='Toast',
-                              font=font, fill='black', justify=tk.CENTER)
-    fried_fish_2 = FriedFish(helper_screen, 1.5 * block_length, 21 * block_length, block_length)
-    helper_screen.create_text(2 * block_length, 21.5 * block_length, text='Fried Fish',
-                              font=font, fill='black', justify=tk.CENTER)
-    fish_fillet = FishFillet(helper_screen, 4.5 * block_length, 21 * block_length, block_length)
-    helper_screen.create_text(5 * block_length, 21.5 * block_length, text='Fish Fillet',
-                              font=font, fill='black', justify=tk.CENTER)
-    bread_piece_2 = BreadPiece(helper_screen, 1.5 * block_length, 22 * block_length, block_length)
-    helper_screen.create_text(2 * block_length, 22.5 * block_length, text='Bread Pieces',
-                              font=font, fill='black', justify=tk.CENTER)
-    crouton = Crouton(helper_screen, 7.5 * block_length, 22 * block_length, block_length)
-    helper_screen.create_text(8 * block_length, 22.5 * block_length, text='Croutons',
-                              font=font, fill='black', justify=tk.CENTER)
+    helper_screen.create_text(
+        8 * block_length,
+        20.5 * block_length,
+        text="Toast",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    fried_fish_2 = FriedFish(
+        helper_screen, 1.5 * block_length, 21 * block_length, block_length
+    )
+    helper_screen.create_text(
+        2 * block_length,
+        21.5 * block_length,
+        text="Fried Fish",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    fish_fillet = FishFillet(
+        helper_screen, 4.5 * block_length, 21 * block_length, block_length
+    )
+    helper_screen.create_text(
+        5 * block_length,
+        21.5 * block_length,
+        text="Fish Fillet",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    bread_piece_2 = BreadPiece(
+        helper_screen, 1.5 * block_length, 22 * block_length, block_length
+    )
+    helper_screen.create_text(
+        2 * block_length,
+        22.5 * block_length,
+        text="Bread Pieces",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
+    crouton = Crouton(
+        helper_screen, 7.5 * block_length, 22 * block_length, block_length
+    )
+    helper_screen.create_text(
+        8 * block_length,
+        22.5 * block_length,
+        text="Croutons",
+        font=font,
+        fill="black",
+        justify=tk.CENTER,
+    )
 
 
 def create_scoring_screen(window, score):
@@ -1841,18 +2071,28 @@ def create_scoring_screen(window, score):
     clear_window(window)
 
     # Create game over label
-    title_label = tk.Label(window, bg=_BACKGROUND, text='Game Over',
-                           font=('Arial', 40), justify=tk.CENTER)
+    title_label = tk.Label(
+        window, bg=_BACKGROUND, text="Game Over", font=("Arial", 40), justify=tk.CENTER
+    )
     title_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.BOTH, expand=True)
 
     # Create the scoring label
-    score_label = tk.Label(window, bg=_BACKGROUND, text=f'Your Score: {score}',
-                           font=('Arial', 25), justify=tk.CENTER)
+    score_label = tk.Label(
+        window,
+        bg=_BACKGROUND,
+        text=f"Your Score: {score}",
+        font=("Arial", 25),
+        justify=tk.CENTER,
+    )
     score_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.BOTH, expand=True)
 
     # Create the main menu button
-    back_button = tk.Button(window, bg=_BACKGROUND, text='Back to main menu',
-                            command=lambda: create_main_menu(window))
+    back_button = tk.Button(
+        window,
+        bg=_BACKGROUND,
+        text="Back to main menu",
+        command=lambda: create_main_menu(window),
+    )
     back_button.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X)
 
 
@@ -1890,55 +2130,79 @@ def create_game_screen(window, duration_mins, controls):
     left_frame.pack(side=tk.LEFT, anchor=tk.CENTER, fill=tk.NONE, expand=True)
     info_frame = tk.Frame(left_frame, bg=_BACKGROUND, width=game_length)
     info_frame.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.NONE, expand=True)
-    timer, order_frame = create_info_screen(info_frame, game_length, duration_mins * 60000)
-    game_screen = tk.Canvas(left_frame, bg='white', width=game_length, height=game_width)
+    timer, order_frame = create_info_screen(
+        info_frame, game_length, duration_mins * 60000
+    )
+    game_screen = tk.Canvas(
+        left_frame, bg="white", width=game_length, height=game_width
+    )
     game_screen.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.BOTH)
 
     # Create objects
-    placeholders, \
-        blocks, \
-        chopping_blocks, \
-        cooking_blocks, \
-        individual_blocks = generate_map(game_screen, length, grid_length, grid_width, 0.5 + 0.1 * (len(controls) - 2))
+    placeholders, blocks, chopping_blocks, cooking_blocks, individual_blocks = (
+        generate_map(
+            game_screen,
+            length,
+            grid_length,
+            grid_width,
+            0.5 + 0.1 * (len(controls) - 2),
+        )
+    )
 
     # Create players and bind movement
     players = {}
-    for fill in _COLOURS[:len(controls)]:
+    for fill in _COLOURS[: len(controls)]:
         coord = random.randint(0, grid_length * grid_width - 1)
         row, col = divmod(coord, grid_length)
-        while (row, col) in placeholders or \
-                (row, col) in blocks or \
-                (row, col) in chopping_blocks or \
-                (row, col) in cooking_blocks or \
-                (row, col) in individual_blocks or \
-                (row, col) in players:
+        while (
+            (row, col) in placeholders
+            or (row, col) in blocks
+            or (row, col) in chopping_blocks
+            or (row, col) in cooking_blocks
+            or (row, col) in individual_blocks
+            or (row, col) in players
+        ):
             coord = random.randint(0, grid_length * grid_width - 1)
             row, col = divmod(coord, grid_length)
-        players[(row, col)] = Player(game_screen,
-                                     (col + (1 - _PLAYER_SIZE_PERCENT) / 2) * length,
-                                     (row + (1 - _PLAYER_SIZE_PERCENT) / 2) * length,
-                                     _PLAYER_SIZE_PERCENT * length,
-                                     len(controls),
-                                     fill=fill)
+        players[(row, col)] = Player(
+            game_screen,
+            (col + (1 - _PLAYER_SIZE_PERCENT) / 2) * length,
+            (row + (1 - _PLAYER_SIZE_PERCENT) / 2) * length,
+            _PLAYER_SIZE_PERCENT * length,
+            len(controls),
+            fill=fill,
+        )
     players = list(players.values())
     bind_player_controls(window, players, controls)
     game_screen.focus_set()
 
     # Draw order menu
     serving_block = list(individual_blocks.values())[3]
-    serving_block.draw_order_menu(order_frame,length)
-    
+    serving_block.draw_order_menu(order_frame, length)
+
     # Create the helper screen
     helper_frame = tk.Frame(window, bg=_BACKGROUND, width=320, height=_WIDTH)
     helper_frame.pack(side=tk.LEFT, anchor=tk.CENTER, fill=tk.NONE, expand=True)
     create_helper_screen(helper_frame, len(controls))
 
     # Update each frame accordingly
-    update_game_frame(grid_length, grid_width,
-                      window, timer,
-                      players, controls,
-                      {**placeholders, **blocks, **chopping_blocks, **cooking_blocks, **individual_blocks},
-                      list(chopping_blocks.values()) + list(cooking_blocks.values()), serving_block)
+    update_game_frame(
+        grid_length,
+        grid_width,
+        window,
+        timer,
+        players,
+        controls,
+        {
+            **placeholders,
+            **blocks,
+            **chopping_blocks,
+            **cooking_blocks,
+            **individual_blocks,
+        },
+        list(chopping_blocks.values()) + list(cooking_blocks.values()),
+        serving_block,
+    )
 
 
 def display_player_controls(preview_frame, num_players, preview_length):
@@ -1947,65 +2211,153 @@ def display_player_controls(preview_frame, num_players, preview_length):
     It displays the controls for each of the players on the player frame.
     """
     clear_window(preview_frame)
-    font = ('Arial', 12)
-    
-    for i, (fill, (up, down, left, right, interact)) in enumerate(tuple(zip(_COLOURS, _PLAYERS))[:num_players]):
+    font = ("Arial", 12)
+
+    for i, (fill, (up, down, left, right, interact)) in enumerate(
+        tuple(zip(_COLOURS, _PLAYERS))[:num_players]
+    ):
         # Create frame to display character preview for current player
-        player_frame = tk.Frame(preview_frame, bg=_BACKGROUND, width=preview_length,
-                                borderwidth=0, highlightbackground='black', highlightthickness=2)
+        player_frame = tk.Frame(
+            preview_frame,
+            bg=_BACKGROUND,
+            width=preview_length,
+            borderwidth=0,
+            highlightbackground="black",
+            highlightthickness=2,
+        )
         player_frame.pack(side=tk.LEFT, anchor=tk.CENTER, padx=2)
 
         # Create label for character name
-        player_label = tk.Label(player_frame, bg=_BACKGROUND, text=f'Player {i + 1}',
-                                font=font, justify=tk.CENTER)
+        player_label = tk.Label(
+            player_frame,
+            bg=_BACKGROUND,
+            text=f"Player {i + 1}",
+            font=font,
+            justify=tk.CENTER,
+        )
         player_label.pack(side=tk.TOP, anchor=tk.CENTER, fill=tk.X, expand=True)
 
         # Create character preview for colour
         player_size = preview_length // 2
-        player_canvas = tk.Canvas(player_frame, bg=_BACKGROUND, width=player_size, height=player_size,
-                                  borderwidth=0, highlightthickness=0)
+        player_canvas = tk.Canvas(
+            player_frame,
+            bg=_BACKGROUND,
+            width=player_size,
+            height=player_size,
+            borderwidth=0,
+            highlightthickness=0,
+        )
         player_canvas.pack(side=tk.TOP, anchor=tk.CENTER, ipadx=0, ipady=0, pady=1)
         player_preview = Player(player_canvas, 0, 0, player_size, 0, fill=fill)
 
         # Create control preview
         key_size = preview_length // 3
-        key_canvas = tk.Canvas(player_frame, bg=_BACKGROUND, width=preview_length, height=key_size * 2,
-                               borderwidth=0, highlightthickness=0)
+        key_canvas = tk.Canvas(
+            player_frame,
+            bg=_BACKGROUND,
+            width=preview_length,
+            height=key_size * 2,
+            borderwidth=0,
+            highlightthickness=0,
+        )
         key_canvas.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.X, expand=True)
 
         # Display preview for the up key
-        up = '↑' if up == 'Up' else up.upper()
-        up_rect = key_canvas.create_rectangle(key_size, 0, key_size * 2, key_size,
-                                              outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
-        up_rect_label = key_canvas.create_text(key_size * 1.5, key_size / 2, text=up,
-                                               font=font, fill='black', justify=tk.CENTER)
+        up = "↑" if up == "Up" else up.upper()
+        up_rect = key_canvas.create_rectangle(
+            key_size,
+            0,
+            key_size * 2,
+            key_size,
+            outline=_OUTLINE,
+            fill="white",
+            width=_OUTLINE_WIDTH,
+        )
+        up_rect_label = key_canvas.create_text(
+            key_size * 1.5,
+            key_size / 2,
+            text=up,
+            font=font,
+            fill="black",
+            justify=tk.CENTER,
+        )
 
         # Display preview for the down key
-        down = '↓' if down == 'Down' else down.upper()
-        down_rect = key_canvas.create_rectangle(key_size, key_size, key_size * 2, key_size * 2,
-                                                outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
-        down_rect_label = key_canvas.create_text(key_size * 1.5, key_size * 1.5, text=down,
-                                                 font=font, fill='black', justify=tk.CENTER)
+        down = "↓" if down == "Down" else down.upper()
+        down_rect = key_canvas.create_rectangle(
+            key_size,
+            key_size,
+            key_size * 2,
+            key_size * 2,
+            outline=_OUTLINE,
+            fill="white",
+            width=_OUTLINE_WIDTH,
+        )
+        down_rect_label = key_canvas.create_text(
+            key_size * 1.5,
+            key_size * 1.5,
+            text=down,
+            font=font,
+            fill="black",
+            justify=tk.CENTER,
+        )
 
         # Display preview for the left key
-        left = '←' if left == 'Left' else left.upper()
-        left_rect = key_canvas.create_rectangle(0, key_size, key_size, key_size * 2,
-                                                outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
-        left_rect_label = key_canvas.create_text(key_size / 2, key_size * 1.5, text=left,
-                                                 font=font, fill='black', justify=tk.CENTER)
+        left = "←" if left == "Left" else left.upper()
+        left_rect = key_canvas.create_rectangle(
+            0,
+            key_size,
+            key_size,
+            key_size * 2,
+            outline=_OUTLINE,
+            fill="white",
+            width=_OUTLINE_WIDTH,
+        )
+        left_rect_label = key_canvas.create_text(
+            key_size / 2,
+            key_size * 1.5,
+            text=left,
+            font=font,
+            fill="black",
+            justify=tk.CENTER,
+        )
 
         # DIsplay preview for the right key
-        right = '→' if right == 'Right' else right.upper()
-        right_rect = key_canvas.create_rectangle(key_size * 2, key_size, key_size * 3, key_size * 2,
-                                                 outline=_OUTLINE, fill='white', width=_OUTLINE_WIDTH)
-        right_rect_label = key_canvas.create_text(key_size * 2.5, key_size * 1.5, text=right,
-                                                  font=font, fill='black', justify=tk.CENTER)
+        right = "→" if right == "Right" else right.upper()
+        right_rect = key_canvas.create_rectangle(
+            key_size * 2,
+            key_size,
+            key_size * 3,
+            key_size * 2,
+            outline=_OUTLINE,
+            fill="white",
+            width=_OUTLINE_WIDTH,
+        )
+        right_rect_label = key_canvas.create_text(
+            key_size * 2.5,
+            key_size * 1.5,
+            text=right,
+            font=font,
+            fill="black",
+            justify=tk.CENTER,
+        )
 
         # Display text preview for the interact key
-        interact = '↵' if interact == 'Return' else '␣' if interact == 'space' else interact.upper()
-        interact_label = tk.Label(player_frame, bg=_BACKGROUND, text=f'Interact: {interact}',
-                                  font=font, justify=tk.CENTER)
-        interact_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.X, expand=True)
+        interact = (
+            "↵"
+            if interact == "Return"
+            else "␣" if interact == "space" else interact.upper()
+        )
+        interact_label = tk.Label(
+            player_frame,
+            bg=_BACKGROUND,
+            text=f"Interact: {interact}",
+            font=font,
+            justify=tk.CENTER,
+        )
+        interact_label.pack(
+            side=tk.TOP, anchor=tk.CENTER, pady=1, fill=tk.X, expand=True
+        )
 
 
 def create_main_menu(window):
@@ -2020,49 +2372,85 @@ def create_main_menu(window):
     """
     # Initialise
     clear_window(window)
-    font = ('Arial', 20)
+    font = ("Arial", 20)
 
     # Display the game title
     title_frame = tk.Frame(window, bg=_BACKGROUND, width=_LENGTH, height=0.1 * _WIDTH)
     title_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.X, expand=True)
-    title_label = tk.Label(title_frame, bg=_BACKGROUND, width=_LENGTH, text=_GAME_NAME,
-                           font=('Arial', 40), justify=tk.CENTER)
+    title_label = tk.Label(
+        title_frame,
+        bg=_BACKGROUND,
+        width=_LENGTH,
+        text=_GAME_NAME,
+        font=("Arial", 40),
+        justify=tk.CENTER,
+    )
     title_label.pack(side=tk.TOP, anchor=tk.CENTER, pady=2, fill=tk.X, expand=True)
 
     # Display the character preview
     # By default, the number of characters to display is 2
     preview_frame = tk.Frame(window, bg=_BACKGROUND, height=0.8 * _WIDTH)
-    preview_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.NONE, expand=True)
+    preview_frame.pack(
+        side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.NONE, expand=True
+    )
     display_player_controls(preview_frame, 2, 0.2 * _LENGTH)
 
     # Display the player selection menu
     select_frame = tk.Frame(window, bg=_BACKGROUND, width=_LENGTH, height=0.05 * _WIDTH)
     select_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.NONE, expand=True)
-    select_label = tk.Label(select_frame, bg=_BACKGROUND, text='Select number of players:',
-                            font=font, justify=tk.CENTER)
+    select_label = tk.Label(
+        select_frame,
+        bg=_BACKGROUND,
+        text="Select number of players:",
+        font=font,
+        justify=tk.CENTER,
+    )
     select_label.pack(side=tk.LEFT, anchor=tk.CENTER, ipadx=2)
     # By default, the number of characters to display is 2
     player_option = tk.StringVar(select_frame)
-    player_option.set('2')
-    player_option_menu = tk.OptionMenu(select_frame, player_option, '2', '3', '4',
-                                       command=lambda _: display_player_controls(preview_frame, int(player_option.get()), 0.2 * _LENGTH))
+    player_option.set("2")
+    player_option_menu = tk.OptionMenu(
+        select_frame,
+        player_option,
+        "2",
+        "3",
+        "4",
+        command=lambda _: display_player_controls(
+            preview_frame, int(player_option.get()), 0.2 * _LENGTH
+        ),
+    )
     player_option_menu.pack(side=tk.LEFT, anchor=tk.CENTER)
 
     # Display timer selection
     # By default, the duration of the game is 5 minutes
     timer_frame = tk.Frame(window, bg=_BACKGROUND, width=_LENGTH, height=0.05 * _WIDTH)
     timer_frame.pack(side=tk.TOP, anchor=tk.CENTER, ipady=1, fill=tk.NONE, expand=True)
-    timer_label = tk.Label(timer_frame, bg=_BACKGROUND, text='Select duration of game:',
-                           font=font, justify=tk.CENTER)
+    timer_label = tk.Label(
+        timer_frame,
+        bg=_BACKGROUND,
+        text="Select duration of game:",
+        font=font,
+        justify=tk.CENTER,
+    )
     timer_label.pack(side=tk.LEFT, anchor=tk.CENTER, ipadx=2)
     timer_option = tk.StringVar(timer_frame)
-    timer_option.set('5 minutes')
-    timer_option_menu = tk.OptionMenu(timer_frame, timer_option, '5 minutes', '10 minutes', '15 minutes')
+    timer_option.set("5 minutes")
+    timer_option_menu = tk.OptionMenu(
+        timer_frame, timer_option, "5 minutes", "10 minutes", "15 minutes"
+    )
     timer_option_menu.pack(side=tk.LEFT, anchor=tk.CENTER)
 
     # Display play button to navigate to game screen
-    play_button = tk.Button(window, text='Start', bg=_BACKGROUND,
-                            command=lambda: create_game_screen(window, int(timer_option.get().split(' ')[0]), _PLAYERS[:int(player_option.get())]))
+    play_button = tk.Button(
+        window,
+        text="Start",
+        bg=_BACKGROUND,
+        command=lambda: create_game_screen(
+            window,
+            int(timer_option.get().split(" ")[0]),
+            _PLAYERS[: int(player_option.get())],
+        ),
+    )
     play_button.pack(side=tk.TOP, anchor=tk.CENTER)
 
 
@@ -2080,7 +2468,7 @@ def main():
     window = tk.Tk()
     window.title(_GAME_NAME)
     window.configure(bg=_BACKGROUND)
-    window.geometry(f'{_LENGTH}x{_WIDTH}')
+    window.geometry(f"{_LENGTH}x{_WIDTH}")
     window.resizable(False, False)
 
     # Create the main menu
@@ -2090,13 +2478,13 @@ def main():
     window.mainloop()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     This is where the code starts running when the python file is run
     """
     # Disable automatic key repeat
     # https://stackoverflow.com/questions/27215326/tkinter-keypress-and-keyrelease-events
-    os.system('xset r off')
+    os.system("xset r off")
     main()
     # Enable automatic key repeat
-    os.system('xset r on')
+    os.system("xset r on")

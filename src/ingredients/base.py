@@ -19,6 +19,7 @@ class Ingredient(BaseModel, ABC):
         - Moving around
         - Chopping and cooking
     """
+
     model_config = ConfigDict(extra="forbid", strict=True)
 
     _ingredient: int = PrivateAttr()
@@ -48,7 +49,7 @@ class Ingredient(BaseModel, ABC):
         can_cook: bool = False,
     ):
         """Initializes the ingredient.
-        
+
         Args:
             screen (tk.Canvas): The canvas on which the ingredient is drawn.
             x (float): The x-coordinate of the top left corner of the ingredient.
@@ -94,11 +95,11 @@ class Ingredient(BaseModel, ABC):
     @property
     def coords(self) -> tuple[float, float, float, float]:
         """The coordinates of the ingredient on the canvas.
-        
+
         Returns:
             tuple[float, float, float, float]:
                 The coordinates of the ingredient on the canvas
-        
+
         Raises:
             ValueError: If the number of coordinates is not 4.
         """
@@ -110,7 +111,7 @@ class Ingredient(BaseModel, ABC):
     @overload
     def move(self, x: float, y: float) -> None:
         """Moves the ingredient by `(x, y)` pixels.
-        
+
         Args:
             x (float): The number of pixels to move the ingredient in the x-direction.
             y (float): The number of pixels to move the ingredient in the y-direction.
@@ -125,7 +126,7 @@ class Ingredient(BaseModel, ABC):
     @overload
     def move(self, *, x: float) -> None:
         """Moves the ingredient by `x` pixels in the x-direction.
-        
+
         Args:
             x (float): The number of pixels to move the ingredient in the x-direction.
         """
@@ -134,7 +135,7 @@ class Ingredient(BaseModel, ABC):
     @overload
     def move(self, *, y: float) -> None:
         """Moves the ingredient by `y` pixels in the y-direction.
-        
+
         Args:
             y (float): The number of pixels to move the ingredient in the y-direction.
         """
@@ -146,7 +147,7 @@ class Ingredient(BaseModel, ABC):
         y: float | None = None,
     ) -> None:
         """Moves the ingredient by `(x, y)` pixels.
-        
+
         Args:
             x (float | None): The number of pixels to move the ingredient in the
                 x-direction. Defaults to zero when omitted.
@@ -162,7 +163,7 @@ class Ingredient(BaseModel, ABC):
     @overload
     def moveto(self, x: float, y: float) -> None:
         """Moves the ingredient to `(x, y)` as its new top-left coordinate.
-        
+
         Args:
             x (float): The x-coordinate to move the ingredient to.
             y (float): The y-coordinate to move the ingredient to.
@@ -177,7 +178,7 @@ class Ingredient(BaseModel, ABC):
     @overload
     def moveto(self, *, x: float) -> None:
         """Moves the ingredient to `x`, preserving its current y-coordinate.
-        
+
         Args:
             x (float): The x-coordinate to move the ingredient to.
         """
@@ -186,7 +187,7 @@ class Ingredient(BaseModel, ABC):
     @overload
     def moveto(self, *, y: float) -> None:
         """Moves the ingredient to `y`, preserving its current x-coordinate.
-        
+
         Args:
             y (float): The y-coordinate to move the ingredient to.
         """
@@ -199,7 +200,7 @@ class Ingredient(BaseModel, ABC):
         y: float | None = None,
     ) -> None:
         """Moves the ingredient to the specified top-left coordinates.
-        
+
         Args:
             x (float | None): The x-coordinate to move the ingredient to.
                 If omitted, the current x-coordinate is preserved.
@@ -241,7 +242,7 @@ class Ingredient(BaseModel, ABC):
 
         Args:
             player (Player): The player who is picking up the ingredient.
-        
+
         Raises:
             ValueError: If the coordinates of the player or ingredient are not in the
                 expected format.
@@ -253,14 +254,22 @@ class Ingredient(BaseModel, ABC):
         x1, y1, x2, y2 = player.coords
         x3, _, x4, _ = self.coords
         x = (
-            x1 + x3 - x4 if player.direction == PlayerDirection.LEFT
-            else x2 if player.direction == PlayerDirection.RIGHT
-            else (x1 + x2 + x3 - x4) / 2
+            x1 + x3 - x4
+            if player.direction == PlayerDirection.LEFT
+            else (
+                x2
+                if player.direction == PlayerDirection.RIGHT
+                else (x1 + x2 + x3 - x4) / 2
+            )
         )
         y = (
-            y1 + x3 - x4 if player.direction == PlayerDirection.UP
-            else y2 if player.direction == PlayerDirection.DOWN
-            else (y1 + y2 + x3 - x4) / 2
+            y1 + x3 - x4
+            if player.direction == PlayerDirection.UP
+            else (
+                y2
+                if player.direction == PlayerDirection.DOWN
+                else (y1 + y2 + x3 - x4) / 2
+            )
         )
         self.moveto(x, y)
 
@@ -276,7 +285,7 @@ class Ingredient(BaseModel, ABC):
 
     def cook(self) -> "Ingredient":
         """Returns the resultant ingredient from the cooking process.
-        
+
         If the ingredient cannot be cooked, it returns itself.
 
         Returns:

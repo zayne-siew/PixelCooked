@@ -2,6 +2,7 @@
 
 from enum import IntEnum, unique
 
+
 @unique
 class PlayerDirection(IntEnum):
     """Class containing constants for player movement directions."""

@@ -11,6 +11,7 @@ from src.players.direction import PlayerDirection
 
 class Player(BaseModel):
     """Class representing a player in the game."""
+
     model_config = ConfigDict(extra="forbid", strict=True)
 
     _player: int = PrivateAttr()
@@ -50,9 +51,7 @@ class Player(BaseModel):
         self._screen = screen
         self._velocity = velocity
         self._fill = fill
-        triangle = ((x, y + length),
-            (x + 0.5 * length, y),
-            (x + length, y + length))
+        triangle = ((x, y + length), (x + 0.5 * length, y), (x + length, y + length))
         self._player = self._create(triangle)
 
     def _create(self, triangle: Sequence[tuple[float, float]]) -> int:
@@ -86,7 +85,7 @@ class Player(BaseModel):
         Returns:
             tuple[float, float, float, float]:
                 The coordinates of the player on the canvas
-        
+
         Raises:
             ValueError: If the number of coordinates retrieved from tkinter is not 6.
         """
